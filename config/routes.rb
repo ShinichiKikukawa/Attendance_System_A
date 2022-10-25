@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'base_points/index'
+
   root 'static_pages#top'
   get '/signup', to: 'users#new'
 

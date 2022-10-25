@@ -7,6 +7,7 @@
          <li><%= link_to "トップへ", current_user %></li>
          <% if current_user.admin? %>
           <li><%= link_to "ユーザ一覧", users_path %></li>
+          <li><%= link_to "拠点情報の追加", base_points_index_path(current_user) %></li>
           <li><%= link_to "基本情報の修正", edit_user_path(current_user) %></li>
           <% end %>
           <li class="dropdown">

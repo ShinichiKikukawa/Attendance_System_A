@@ -5,6 +5,7 @@
     <table class="table table-bordered table-condensed table-striped table-hover" id="table-attendances">
       <thead>
         <tr>
+          <th rowspan = "3" width = "6%">残業申請</th>
           <th>日付</th>
           <th>曜日</th>
           <th>出社</th>
@@ -17,6 +18,7 @@
         <% @attendances.each do |day| %>
           <%= f.fields_for "attendances[]", day do |attendance| %>
             <tr>
+              <td class="btn btn-md btn-primary">残業申請</td>
               <td><%= l(day.worked_on, format: :short) %></td>
               <td class ="<%= "wday#{day.worked_on.wday}" %>"><%= $days_of_the_week[day.worked_on.wday] %></td>
               <% if Date.current < day.worked_on %>

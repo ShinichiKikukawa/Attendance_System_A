@@ -5,6 +5,7 @@
   text-align: center;
 }
 
+
 /* ユーザー情報下ボタン */
 
 .btn-users-show {
@@ -16,6 +17,7 @@
 
 #table-attendances {
   th {
+    display: inline-block;
     vertical-align: middle;
     text-align: center;
   }
