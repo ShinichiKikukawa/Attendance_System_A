@@ -1,0 +1,44 @@
+/* ユーザー情報テーブル */
+
+ 
+  /* 入力フォーム */
+  
+  .label-new {
+    margin-top: 5px;
+  }
+  
+  .btn-new {
+    margin-top: 10px;
+  }
+  
+  .label-base--edit {
+    margin-top: 5px;
+  }
+  
+  .btn-base--edit {
+    margin-top: 10px;
+  }
+  
+  /* ユーザー一覧ページ */
+  
+  #table-bases {
+    th {
+      vertical-align: center;
+      text-align: center;
+    }
+    
+    td {
+      vertical-align: middle;
+    }  
+  }
+  
+  /* 基本情報編集モーダルウインドウ */
+  
+  .label-base-form {
+    margin-top: 5px;
+  }
+  
+  .btn-base-form {
+    margin: 15px 0;
+    width: 30%;
+  }
