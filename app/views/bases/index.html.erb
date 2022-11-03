@@ -1,39 +1,37 @@
 <% provide(:title, 'List of Bases')%>
-<h1>拠点一覧</h1>
-  
-  <div class="row">
-    <div class="col-md-12">
-      <table class="table table-bordered table-striped table-condensed" id="table-bases" %>
-       <thead>
-        <tr>
-          <div class="container-fluid">
-            <div class="row">
+
+<div class="container">
+  <h1>拠点一覧</h1>
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table table-bordered table-striped table-condensed table-hover" id="table-bases">
+          <thead>
+            <tr>
               <th class="col-sm-3 bg-secondary"></th>
               <th class="col-sm-2 bg-danger"></th>
               <th class="col-sm-2 bg-warning">拠点番号</th>
               <th class="col-sm-2 bg-success">拠点名</th>
               <th class="col-sm-2 bg-info">勤怠種類</th>
-            </div>
-          </div>
-        </tr>
-       </thead>
-    
-       <tbody>
-        <tr>
-         <td class="col-sm-3"><p class="btn btn-primary">　修正　</p></td>
-         <td class="col-sm-2"><div style="text-align: center;"><div class="btn btn-primary">削除</div></style></td>
-         <td class="col-sm-2">　　　　　　2</td>
-         <td class="col-sm-2">　　　 　拠点A</td>
-         <td class="col-sm-2">　　　　　出勤</td>
-        </tr>
+            </tr>
+          </thead>
         
-        <table class="table table-striped table-bordered table-condensed" id="table-bases" %>
+          <% @bases.each do |base| %>
+          <tbody>
+            <tr>
+              <td class="col-sm-3"><p class="btn btn-primary">　修正　</p></td>
+              <td class="col-sm-2"><div style="text-align: center;"><div class="btn btn-primary">削除</div></style></td>
+              <td class="col-sm-2">　　　　　　2</td>
+              <td class="col-sm-2">　　　 　拠点A</td>
+              <td class="col-sm-2">　　　　　出勤</td>
+            </tr>
+        
+        <table class="table table-bordered table-condensed table-striped" id="table-bases" %>
          <td class="col-sm-3"><div style= "margin: 15px;"><p class="btn btn-lg btn-primary">拠点情報追加</p></div></td>
        </tbody>
       </table>
     </div>
   </div>
-
+</div>
 
 
 <div id="edit-base" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
