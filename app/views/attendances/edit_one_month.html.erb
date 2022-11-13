@@ -14,6 +14,7 @@
           <th>備考</th>
         </tr>
       </thead>
+      
       <tbody>
         <% @attendances.each do |day| %>
           <%= f.fields_for "attendances[]", day do |attendance| %>

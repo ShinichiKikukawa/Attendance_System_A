@@ -1,38 +1,53 @@
-<% provide(:title, 'List of Bases')%>
+<% provide(:title, 'Bases')%>
 
 <div class="container">
   <h1>拠点一覧</h1>
     <div class="row">
       <div class="col-md-12">
-        <table class="table table-bordered table-striped table-condensed table-hover" id="table-bases">
+        <table class="table table-bordered table-condensed table-striped table-hover" id="table-bases">
           <thead>
             <tr>
-              <th class="col-sm-3 bg-secondary"></th>
+              <th class="col-sm-2 bg-secondary"></th>
               <th class="col-sm-2 bg-danger"></th>
               <th class="col-sm-2 bg-warning">拠点番号</th>
               <th class="col-sm-2 bg-success">拠点名</th>
               <th class="col-sm-2 bg-info">勤怠種類</th>
             </tr>
           </thead>
-        
-          <% @bases.each do |base| %>
+          
           <tbody>
+            <% @bases.each do |base| %>
             <tr>
-              <td class="col-sm-3"><p class="btn btn-primary">　修正　</p></td>
-              <td class="col-sm-2"><div style="text-align: center;"><div class="btn btn-primary">削除</div></style></td>
-              <td class="col-sm-2">　　　　　　2</td>
-              <td class="col-sm-2">　　　 　拠点A</td>
-              <td class="col-sm-2">　　　　　出勤</td>
-            </tr>
+              <td><%= link_to "修正", edit_basis_path(base), remote: true, class: "btn btn-primary" %></td>
+              <td><%= link_to "削除", base, method: :delete,
+                  data: {confirm: "#{base.base_name}の情報を削除してよろしいですか？"},
+                  class: "btn btn-danger" %>
+              </td>
+              <td><%= base.base_number %></td>
+              <td><%= base.base_name %></td>
+              <td><%= base.work_type %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
         
-        <table class="table table-bordered table-condensed table-striped" id="table-bases" %>
-         <td class="col-sm-3"><div style= "margin: 15px;"><p class="btn btn-lg btn-primary">拠点情報追加</p></div></td>
-       </tbody>
-      </table>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+            <button type="button" class="btn btn-lg btn-primary"  data-toggle="collapse" data-target="#collapse" %>拠点情報追加</button>
+            </h4>
+        
+              <div class="panel-collapse collapse out" id="collapse">
+                <div class="panel-body">
+                  <p class="text-right"><a class="btn btn-link collapse-close" href="#">&times;</a></p>
+                    <%= render 'bases/form_bases'%>
+                </div>
+              </div>
+          </div>   
+        </div>
+      </div> 
     </div>
-  </div>
 </div>
 
-
-<div id="edit-base" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
-<div id="new-base" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+<!--モーダルウインドウ表示-->
+<div id="edit" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>

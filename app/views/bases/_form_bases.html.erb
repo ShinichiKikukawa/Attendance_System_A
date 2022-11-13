@@ -1,0 +1,14 @@
+<%= form_with(model: @bases, url: bases_path, local: true, method: :post) do |f| %>
+     
+  <%= f.label :"拠点番号", class: "label-base-form" %>
+  <%= f.number_field :base_number, class: "form-control",min:1,max:1000 %>
+       
+  <%= f.label :"拠点名", class: "label-base-form" %>
+  <%= f.text_field :base_name, class: "form-control" %>
+        
+  <%= f.label :"勤怠種類", class: "label-base-form" %>
+  <%= f.select :work_type, ["出社", "リモート"], {include_blank: "選択してください。"}, class: "form-control", required: true %>
+        
+  <%= f.submit "更新", class: "btn btn-primary btn-block btn-base-form" %>
+  
+<% end %>

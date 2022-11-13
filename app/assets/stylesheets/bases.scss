@@ -9,15 +9,15 @@
     margin-top: 10px;
   }
   
-  .label-base--edit {
+  .label-base-edit {
     margin-top: 5px;
   }
   
-  .btn-base--edit {
+  .btn-base-edit {
     margin-top: 10px;
   }
   
-  /* ユーザー一覧ページ */
+  /* 拠点一覧 */
   
   #table-bases {
     th {
@@ -27,6 +27,7 @@
     
     td {
       vertical-align: middle;
+      text-align: center;
     }  
   }
   
