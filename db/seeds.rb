@@ -133,39 +133,16 @@ end
                work_type: "リモート")
                
   Base.create!(base_number: 30,
+               base_name: "ドバイ支社",
+               work_type: "リモート")
+  
+  Base.create!(base_number: 31,
                base_name: "ブラジル支社",
                work_type: "リモート")
                
                
+               
+31.times do |n|
 
-puts "Base-1.created!"
-puts "Base-2.created!"
-puts "Base-3.created!"
-puts "Base-4.created!"
-puts "Base-5.created!"
-puts "Base-6.created!"
-puts "Base-7.created!"
-puts "Base-8.created!"
-puts "Base-9.created!"
-puts "Base-10.created!"
-puts "Base-11.created!"
-puts "Base-12.created!"
-puts "Base-13.created!"
-puts "Base-14.created!"
-puts "Base-15.created!"
-puts "Base-16.created!"
-puts "Base-17.created!"
-puts "Base-18.created!"
-puts "Base-19.created!"
-puts "Base-20.created!"
-puts "Base-21.created!"
-puts "Base-22.created!"
-puts "Base-23.created!"
-puts "Base-24.created!"
-puts "Base-25.created!"
-puts "Base-26.created!"
-puts "Base-27.created!"
-puts "Base-28.created!"
-puts "Base-29.created!"
-puts "Base-30.created!"
-
+puts "Base-#{n+1}.created!"               
+end

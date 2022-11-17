@@ -7,6 +7,7 @@
          <li><%= link_to "トップへ", root_path %></li>
          <% if current_user.admin? %>
           <li><%= link_to "ユーザ一覧", users_path %></li>
+          <li><%= link_to "出勤社員一覧", "#"%></li>
           <li><%= link_to "拠点情報の修正", bases_index_path(current_user) %></li>
           <li><%= link_to "基本情報の修正", edit_user_path(current_user) %></li>
           <% end %>
@@ -15,7 +16,9 @@
               <%= current_user.name %><b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
-              <li><%= link_to "勤怠表示画面", current_user %></li>
+              <% unless current_user.admin? %>
+                <li><%= link_to "勤怠表示画面", current_user %></li>
+              <% end %>
               <li><%= link_to "設定", edit_user_path(current_user) %></li>
               <li class="divider"></li>
               <li>
