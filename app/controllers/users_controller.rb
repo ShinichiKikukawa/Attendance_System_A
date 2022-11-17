@@ -11,10 +11,6 @@ class UsersController < ApplicationController
     @search_user = params[:search]
   end
 
-  def show
-    @worked_sum = @attendances.where.not(started_at: nil).count
-  end
-
   def new
     @user = User.new
   end
@@ -30,6 +26,10 @@ class UsersController < ApplicationController
     end
   end
 
+  def show
+    @worked_sum = @attendances.where.not(started_at: nil).count
+  end
+  
   def edit
   end
 
@@ -58,6 +58,10 @@ class UsersController < ApplicationController
       flash[:danger] = "#{@user.name}の更新は失敗しました。<br>" + @user.errors.full_messages.join("<br>")
     end
     redirect_to users_url
+  end
+
+  def list_of_employees_at_work
+    @users = User.all
   end
 
   private

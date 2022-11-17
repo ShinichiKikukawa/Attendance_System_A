@@ -2,6 +2,7 @@
 
 User.create!(name: "管理者",
              email: "sample@email.com",
+             employee_number: 1,
              password: "password",
              password_confirmation: "password",
              admin: true)
@@ -10,14 +11,15 @@ puts "Admin User.created!"
 
 10.times do |n|
   name  = Faker::Name.name
-  email = "sample-#{n+1}@email.com"
+  email = "sample#{n+2}@email.com"
   password = "password"
   User.create!(name: name,
                email: email,
+               employee_number: n+2,
                password: password,
                password_confirmation: password)
 
-puts "User-#{n+1}.created!"
+puts "User#{n+1}.created!"
 end
 
   Base.create!(base_number: 1,
@@ -109,40 +111,52 @@ end
                work_type: "リモート")
                
   Base.create!(base_number: 24,
-               base_name: "ソウル支社",
+               base_name: "インドネシア支社",
                work_type: "リモート")
                
   Base.create!(base_number: 25,
-               base_name: "インド支社",
+               base_name: "ソウル支社",
                work_type: "リモート")
                
   Base.create!(base_number: 26,
-               base_name: "ナイジェリア支社",
+               base_name: "インド支社",
                work_type: "リモート")
                
   Base.create!(base_number: 27,
-               base_name: "エジプト支社",
+               base_name: "ナイジェリア支社",
                work_type: "リモート")
                
   Base.create!(base_number: 28,
-               base_name: "南アフリカ支社",
+               base_name: "エジプト支社",
                work_type: "リモート")
                
   Base.create!(base_number: 29,
-               base_name: "トルコ支社",
+               base_name: "南アフリカ支社",
                work_type: "リモート")
                
   Base.create!(base_number: 30,
+               base_name: "トルコ支社",
+               work_type: "リモート")
+               
+  Base.create!(base_number: 31,
                base_name: "ドバイ支社",
                work_type: "リモート")
+               
+  Base.create!(base_number: 32,
+               base_name: "サウジアラビア支社",
+               work_type: "リモート")
   
-  Base.create!(base_number: 31,
+  Base.create!(base_number: 33,
+               base_name: "イスラエル支社",
+               work_type: "リモート")
+  
+  Base.create!(base_number: 34,
                base_name: "ブラジル支社",
                work_type: "リモート")
                
                
                
-31.times do |n|
+34.times do |n|
 
-puts "Base-#{n+1}.created!"               
+puts "Base#{n+1}.created!"               
 end
