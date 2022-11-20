@@ -1,6 +1,6 @@
 class BasesController < ApplicationController
-  before_action :set_base, only: [:show, :edit, :update, :destroy]
-  
+  before_action :set_base, only: [:edit, :update, :destroy]
+  before_action :admin_user, only: [:index, :show, :new, :edit, :update]
   
   def index
     @bases = Base.all.order(base_number: "ASC")
@@ -20,6 +20,7 @@ class BasesController < ApplicationController
       redirect_to bases_url
     else
       flash[:danger] = '拠点情報を追加できませんでした。'
+      @bases = Base.all
       render :index
     end
   end
