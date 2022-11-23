@@ -49,8 +49,9 @@
     </thead>
 
   <tbody>
+    <%= link_to "CSV出力", user_path(format: :csv), class: "btn btn-primary" %><br>
     <% @attendances.each do |day| %>
-    
+     
     <tr>
       <td><%= l(day.worked_on, format: :short) %></td>
       <td class ="<%= "wday#{day.worked_on.wday}" %>"><%= $days_of_the_week[day.worked_on.wday] %></td>

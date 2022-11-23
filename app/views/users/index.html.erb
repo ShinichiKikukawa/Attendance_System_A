@@ -1,28 +1,14 @@
 <% provide(:title, 'All Users') %>
 
-<% if !@search_user.blank? %>
-  <h1>検索結果</h1>
-<% else %>
-  <h1>全てのユーザー</h1>
-<% end %>
-
 <div class="row">
-  
-  <div class="col-md-offset-8">
-    <%= form_tag(users_path, method: :get) do %>
-      <%= label_tag :name, "ユーザー名検索", class:"label-search" %>
-      <div class="input-group">
-        <%= text_field_tag :search, "", placeholder: "キーワードを入力...", class:"form-control" %>
-        <span class="input-group-btn">
-        <%= submit_tag '検索', :name => nil, class: "btn btn-primary" %>
-        </span>
-      </div>
-    <% end %>
-  </div>
-</div>
+  <h1>ユーザ一覧</h1>
 
+<%= form_with(url: import_users_path) do |f| %>
+    <%= f.file_field :file, accept: '.csv' %>
+    <%= f.submit "csvをインポート", class: "btn btn-primary csv-button" %>
+<% end %>
+</div>
 <div class="col-md-10 col-md-offset-1">
-  <%= will_paginate %>
   <table class="table table-condensed table-hover" id="table-users">
     <thead>
       <tr>
@@ -34,14 +20,15 @@
       <tr>
         <td><%= link_to user.name, user %></td>
         <td class="center">
+          <% if current_user.admin? && !current_user?(user) %>
             <%= link_to "基本情報編集", edit_basic_info_user_path(user), remote: true, class: "btn btn-success" %>
             <%= link_to "削除", user, method: :delete,
                 data: { confirm: "削除してよろしいですか？" }, class: "btn btn-danger" %>
+          <% end %>
         </td>
       </tr>
     <% end %>
   </table>
-  <%= will_paginate %>
 </div>
 
 <!--モーダルウインドウ表示-->
