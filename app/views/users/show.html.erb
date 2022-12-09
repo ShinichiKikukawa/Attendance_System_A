@@ -8,12 +8,12 @@
         <%= link_to " →️", user_path(date: @first_day.next_month), class: "btn btn-primary" %>
       </td>
       <td>指定勤務時間：<%= format_basic_info(@user.work_time) %></td>
-      <td colspan="3">基本時間：<%= format_basic_info(@user.basic_time) %></td>
+      <td colspan="3">基本時間：<%= format_basic_info(@user.basic_work_time) %></td>
       <td colspan="２">初日：<%= l(@first_day, format: :short) %></td>
     </tr>
 
     <tr>
-      <td>所属：<%= @user.department.present? ? @user.department : "未所属" %></td>
+      <td>所属：<%= @user.affiliation.present? ? @user.affiliation : "未所属" %></td>
       <td>氏名：<%= @user.name %></td>
       <td>コード</td>
       <td></td>

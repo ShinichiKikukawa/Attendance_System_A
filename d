@@ -1,0 +1,17 @@
+=> [32m#<User:0x00000000060d3490[0m
+ id: [1;34m1[0m,
+ name: [31m[1;31m"[0m[31m管理者[1;31m"[0m[31m[0m,
+ email: [31m[1;31m"[0m[31msample@email.com[1;31m"[0m[31m[0m,
+ created_at: [1;34;4mTue[0m, [1;34m06[0m [1;34;4mDec[0m [1;34m2022[0m [1;34m23[0m:[1;34m54[0m:[1;34m07[0m [1;34;4mJST[0m [1;34m+09[0m:[1;34m00[0m,
+ updated_at: [1;34;4mTue[0m, [1;34m06[0m [1;34;4mDec[0m [1;34m2022[0m [1;34m23[0m:[1;34m54[0m:[1;34m07[0m [1;34;4mJST[0m [1;34m+09[0m:[1;34m00[0m,
+ password_digest: [31m[1;31m"[0m[31m$2a$12$lM2FW51JrLj.V46vTRnGVu62E10dScLcqKqNncqkL5ulj9EJUXaS2[1;31m"[0m[31m[0m,
+ remember_digest: [1;36mnil[0m,
+ admin: [1;36mtrue[0m,
+ affiliation: [1;36mnil[0m,
+ basic_work_time: [1;34;4mTue[0m, [1;34m06[0m [1;34;4mDec[0m [1;34m2022[0m [1;34m08[0m:[1;34m00[0m:[1;34m00[0m [1;34;4mJST[0m [1;34m+09[0m:[1;34m00[0m,
+ work_time: [1;34;4mTue[0m, [1;34m06[0m [1;34;4mDec[0m [1;34m2022[0m [1;34m07[0m:[1;34m30[0m:[1;34m00[0m [1;34;4mJST[0m [1;34m+09[0m:[1;34m00[0m,
+ employee_number: [1;34m0[0m,
+ uid: [1;36mnil[0m,
+ designated_work_start_time: [1;36mnil[0m,
+ designated_work_end_time: [1;36mnil[0m,
+ superior: [1;36mfalse[0m[32m>[0m
