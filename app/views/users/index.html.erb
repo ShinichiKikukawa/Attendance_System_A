@@ -18,7 +18,7 @@
             <%= user.name %><br>
             <td class="center">
               <%= link_to "削除", user, method: :delete,
-                data: { confirm: "削除してもよろしいですか？" }, class: "btn btn-lg btn-primary" %>
+                data: { confirm: "#{user.name}のデータを削除してもよろしいですか？" }, class: "btn btn-lg btn-primary" %>
             </td>
           </tr>
         </div>
