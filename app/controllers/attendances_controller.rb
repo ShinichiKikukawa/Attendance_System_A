@@ -9,8 +9,8 @@ class AttendancesController < ApplicationController
   def update
     @user = User.find(params[:user_id])
     @attendance = Attendance.find(params[:id])
-    # 出勤時間が未登録であることを判定します。
-    if @attendance.started_at.nil?
+   
+    if @attendance.started_at.nil?  # 出勤時間が未登録であることを判定します。
       if @attendance.update_attributes(started_at: Time.current.change(sec: 0))
         flash[:info] = "おはようございます！"
       else
@@ -39,15 +39,15 @@ class AttendancesController < ApplicationController
     end
     flash[:success] = "1ヶ月分の勤怠情報を更新しました。"# トランザクションが正常に稼働したら出る。
     redirect_to user_url(date: params[:date])
-  rescue ActiveRecord::RecordInvalid # トランザクションによるエラーの分岐です。
+  rescue ActiveRecord::RecordInvalid # トランザクションによるエラーの分岐。
     flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"# トランザクションが失敗したら出る。
     redirect_to attendances_edit_one_month_user_url(date: params[:date])
   end
 
   private
 
-    # 1ヶ月分の勤怠情報を扱います。
-    def attendances_params
+    
+    def attendances_params # 1ヶ月分の勤怠情報を扱う。
       params.require(:user).permit(attendances: [:started_at, :finished_at, :note])[:attendances]
     end
 
