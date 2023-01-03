@@ -1,5 +1,5 @@
 # coding: utf-8
-  User.create!(name: "管理者",
+  User.create!(name: "人事総務部長(管理者）",
                email: "sample@email.com",
                affiliation: "人事総務部",
                employee_number: 1,
@@ -12,7 +12,7 @@
   puts "Admin-User.created!"
   
   User.create!(name: "部長（上長A）",
-               email: "sampleA@email.com",
+               email: "sample-a@email.com",
                affiliation: "情報システム部",
                employee_number: 2,
                uid: 2,
@@ -22,7 +22,7 @@
                superior: true)
 
   User.create!(name: "課長（上長B）",
-               email: "sampleB@email.com",
+               email: "sample-b@email.com",
                affiliation: "情報システム部",
                employee_number: 3,
                uid: 3,
