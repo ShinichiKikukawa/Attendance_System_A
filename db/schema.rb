@@ -57,13 +57,13 @@ ActiveRecord::Schema.define(version: 20230104120049) do
     t.string "password_digest"
     t.string "remember_digest"
     t.boolean "admin", default: false
-    t.string "affiliation"
+    t.string "affiliation", default: "情報システム部"
     t.datetime "basic_work_time", default: "2023-01-03 23:00:00"
     t.datetime "work_time", default: "2023-01-03 22:30:00"
     t.integer "employee_number"
     t.integer "uid"
-    t.datetime "designated_work_start_time"
-    t.datetime "designated_work_end_time"
+    t.datetime "designated_work_start_time", default: "2023-01-01 00:00:00"
+    t.datetime "designated_work_end_time", default: "2023-01-01 09:00:00"
     t.boolean "superior", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end

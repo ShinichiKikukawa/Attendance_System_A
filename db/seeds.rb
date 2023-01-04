@@ -113,25 +113,36 @@
                password_confirmation: "password",
                admin: false,
                superior: false)
+
+  User.create!(name: "せわしくん",
+                email: "sample-9@email.com",
+                affiliation: "情報システム部",
+                employee_number: 12,
+                uid: 12,
+                password: "password",
+                password_confirmation: "password",
+                admin: false,
+                superior: false)            
   
-  8.times do |n|
+  9.times do |n|
   puts "User#{n+1}.created!"
   end
  
-  5.times do |n|
+  12.times do |n|
   name  = Faker::Name.name
-  email = "sample-#{n+9}@email.com"
+  email = "sample-#{n+10}@email.com"
   password = "password"
   User.create!(name: name,
                email: email,
-               employee_number: n+11,
-               uid: n+11,
+               affiliation: "情報システム部",
+               employee_number: n+13,
+               uid: n+13,
                password: password,
                password_confirmation: password,
                admin: false,
                superior: false)
   
-  puts "User#{n+9}.created! (\"#{Faker::Name.name}\")"
+  puts "User#{n+10}.created! (\"#{Faker::Name.name}\")"
   end
 
   Base.create!(base_number: 1,

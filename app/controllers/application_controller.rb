@@ -51,7 +51,7 @@ class ApplicationController < ActionController::Base
     end
 
   rescue ActiveRecord::RecordInvalid # トランザクションによるエラーの分岐です。
-    flash[:danger] = "ページ情報の取得に失敗しました、再アクセスしてください。"
+    flash[:danger] = "ページ情報の取得に失敗しました。再アクセスしてください。"
     redirect_to root_url
   end
 end

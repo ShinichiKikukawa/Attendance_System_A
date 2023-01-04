@@ -12,13 +12,13 @@ class AttendancesController < ApplicationController
    
     if @attendance.started_at.nil?  # 出勤時間が未登録であることを判定します。
       if @attendance.update_attributes(started_at: Time.current.change(sec: 0))
-        flash[:info] = "おはようございます！"
+        flash[:info] = "おはようございます！出勤時間を登録しました。"
       else
         flash[:danger] = UPDATE_ERROR_MSG
       end
     elsif @attendance.finished_at.nil?
       if @attendance.update_attributes(finished_at: Time.current.change(sec: 0))
-        flash[:info] = "お疲れ様でした。"
+        flash[:info] = "お疲れ様でした！退勤時間を登録しました。"
       else
         flash[:danger] = UPDATE_ERROR_MSG
       end
