@@ -11,7 +11,17 @@ namespace :fly do
   #  - full access to secrets, databases
   #  - failures here prevent deployment
   task :release => 'db:migrate'
+  
+  task :disable_database_environment_check do
+    ENV['DISABLE_DATABASE_ENVIRONMENT_CHECK'] = '1'
+  end
 
+  task :reset => [
+    'fly:disable_database_environment_check',
+    'db:migrate:reset',
+    'db:migrate',
+    'db:seed'
+  ]
   # SERVER step:
   #  - changes to the filesystem made here are deployed
   #  - full access to secrets, databases

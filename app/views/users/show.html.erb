@@ -11,15 +11,15 @@
         指定勤務開始時間: <%= l(@user.designated_work_start_time, format: :time) %><br>
         指定勤務終了時間: <%= l(@user.designated_work_end_time, format: :time) %>
       </td>
-      <td colspan="3">基本時間: <%= format_basic_info(@user.basic_work_time) %></td>
-      <td colspan="２">月初日: <%= l(@first_day, format: :short) %></td>
+      <td colspan="2">基本時間: <%= format_basic_info(@user.basic_work_time) %></td>
+      <td>月初日: <%= l(@first_day, format: :short) %></td>
     </tr>
 
     <tr>
       <td>所属: <%= @user.affiliation.present? ? @user.affiliation : "未所属" %></td>
       <td>氏名: <%= @user.name %></td>
       <td>コード: 0<%= @user.uid %></td>
-      <td colspan="2">出勤日数: <%= @worked_sum %>日</td>
+      <td>出勤日数: <%= @worked_sum %>日</td>
       <td>月末日: <%= l(@last_day, format: :short) %></td>
     </tr>
   </table>
@@ -73,14 +73,14 @@
           <td><%= day.started_at.floor_to(15.minutes).min if day.started_at.present? %></td>
           <td>
             <% if (Date.current == day.worked_on) && day.started_at.nil? %>
-              <%= link_to "出社", user_attendance_path(@user, day), method: :patch, class: "btn btn-primary btn-attendance" %>
+              <%= link_to "出勤登録", user_attendance_path(@user, day), method: :patch, class: "btn btn-primary btn-attendance" %>
             <% end %>
           </td>
           <td><%= day.finished_at.floor_to(15.minutes).hour if day.finished_at.present? %></td>
           <td><%= day.finished_at.floor_to(15.minutes).min if day.finished_at.present? %></td>
           <td>
             <% if (Date.current == day.worked_on) && day.started_at.present? && day.finished_at.nil? %>
-              <%= link_to "退社", user_attendance_path(@user,day), method: :patch, class:"btn btn-primary btn-attendance" %>
+              <%= link_to "退勤登録", user_attendance_path(@user,day), method: :patch, class:"btn btn-primary btn-attendance" %>
             <% end %>
           </td>
           <td>
@@ -90,6 +90,11 @@
             <% end %>
           </td>
           <td><%= day.note %></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
         </tr>
       <% end %>
     </tbody>
@@ -97,14 +102,16 @@
     <tfoot>
       <!--rowspan:縦連結、colspan：横連結-->
       <tr>
-        <td colspan="4">累計日数</td>
+        <td colspan="3">累計日数</td>
         <td colspan="6">総合勤務時間</td>
-        <td colspan="2">累計在社時間</td>
+        <td colspan="6">累計在社時間</td>
+        <td>所属長承認　<span>未送信</span</td>
       </tr>
       <tr>
-        <td colspan="4"><%= @attendances.count %></td>
+        <td colspan="3"><%= @attendances.count %></td>
         <td colspan="6"><%= format_basic_info(@user.work_time).to_f * @worked_sum %></td>
-        <td colspan="2"><%= format("%.2f", @total_working_times.to_f) %></td>
+        <td colspan="6"><%= format("%.2f", @total_working_times.to_f) %></td>
+        <td>上長ベイベー<br><p>申請</p></td>
       </tr>
     </tfoot>
   </table>
