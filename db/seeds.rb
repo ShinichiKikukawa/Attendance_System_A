@@ -128,21 +128,28 @@
   puts "User#{n+1}.created!"
   end
  
-  12.times do |n|
+  24.times do |n|
   name  = Faker::Name.name
   email = "sample-#{n+10}@email.com"
+  affiliation = "情報システム部"
+  employee_number = n+13
+  uid = n+13
   password = "password"
+  password_confirmation = "password"
+  admin = false
+  superior = false
+  
   User.create!(name: name,
                email: email,
-               affiliation: "情報システム部",
+               affiliation: affiliation,
                employee_number: n+13,
                uid: n+13,
                password: password,
                password_confirmation: password,
-               admin: false,
-               superior: false)
+               admin: admin,
+               superior: superior)
   
-  puts "User#{n+10}.created! (\"#{Faker::Name.name}\")"
+  puts "User#{n+10}.created! (\"#{Faker::Name.name}\")"#（\"#{faker::Name.name}\")の記述はuser.created!の中身とは全く別で生成される。記述の仕方でこういうのもできると残しただけ。
   end
 
   Base.create!(base_number: 1,

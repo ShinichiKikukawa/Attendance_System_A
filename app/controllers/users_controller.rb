@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info, :list_of_employees_at_work]
   before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info]
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: [:index, :destroy, :edit_basic_info, :update_basic_info]
@@ -26,9 +26,16 @@ class UsersController < ApplicationController
   end
 
   def show
+    @superiors = User.where(superior: true).where.not(id: @user.id)
     @worked_sum = @attendances.where.not(started_at: nil).count
-    # csv出力
-    respond_to do |format|
+    @one_month_approval_sum = Attendance.where(superior_selector_one_month_request: @user.name, one_month_request_status: "申請中").count
+    @working_hours_sum = Attendance.where(superior_selector_working_hours_request: @user.name, working_hours_approval_status: "申請中").count
+    @overtime_sum = Attendance.where(superior_selector_overtime_request: @user.name, overtime_approval_status: "申請中").count
+    
+    
+
+    
+    respond_to do |format| # csv出力
       format.html
       format.csv do |csv|
         send_attendances_csv(@attendances)
@@ -67,7 +74,7 @@ class UsersController < ApplicationController
   end
 
   def list_of_employees_at_work
-    @users = User.all
+    @users = User.all.order(id: "ASC")
   end
     
   def import
@@ -87,11 +94,15 @@ class UsersController < ApplicationController
   private
 
     def user_params
-      params.require(:user).permit(:name, :email, :affiliation, :password, :password_confirmation)
+      params.require(:user).permit(:name, :email, :affiliation, :employee_number, :uid,
+                                   :password, :password_confirmation, :basic_work_time,
+                                   :designated_work_start_time, :designated_work_end_time)
     end
 
     def basic_info_params
-      params.require(:user).permit(:affiliation, :basic_work_time, :work_time)
+      params.require(:user).permit(:name, :email, :affiliation, :employee_number, :uid,
+                                   :password, :password_confirmation, :basic_work_time,
+                                   :designated_work_start_time, :designated_work_end_time)
     end
     
     def send_attendances_csv(attendances)

@@ -16,6 +16,9 @@ namespace :fly do
     ENV['DISABLE_DATABASE_ENVIRONMENT_CHECK'] = '1'
   end
 
+  task :setmigrate => 'db:migrate VERSION1'
+  
+
   task :reset => [
     'fly:disable_database_environment_check',
     'db:migrate:reset',
