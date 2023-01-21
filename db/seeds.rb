@@ -1,5 +1,5 @@
 # coding: utf-8
-  User.create!(name: "管理者",
+  User.create!(name: "人事総務部長(管理者）",
                email: "sample@email.com",
                affiliation: "人事総務部",
                employee_number: 1,
@@ -9,10 +9,10 @@
                admin: true,
                superior: false)
 
-  puts "Admin-User.created!"
+  puts "User1.created!(Admin-User)"
   
   User.create!(name: "部長（上長A）",
-               email: "sampleA@email.com",
+               email: "sample-1@email.com",
                affiliation: "情報システム部",
                employee_number: 2,
                uid: 2,
@@ -22,7 +22,7 @@
                superior: true)
 
   User.create!(name: "課長（上長B）",
-               email: "sampleB@email.com",
+               email: "sample-2@email.com",
                affiliation: "情報システム部",
                employee_number: 3,
                uid: 3,
@@ -31,11 +31,11 @@
                admin: false,
                superior: true)
   
-  puts "Superior-UserA.created!"
-  puts "Superior-UserB.created!"
+  puts "User2.created!(Superior-A)"
+  puts "User3.created!(Superior-B)"
   
   User.create!(name: "ドラえもん",
-               email: "sample-1@email.com",
+               email: "sample-3@email.com",
                affiliation: "情報システム部",
                employee_number: 4,
                uid: 4,
@@ -45,7 +45,7 @@
                superior: false)
  
   User.create!(name: "のび太",
-               email: "sample-2@email.com",
+               email: "sample-4@email.com",
                affiliation: "情報システム部",
                employee_number: 5,
                uid: 5,
@@ -55,7 +55,7 @@
                superior: false)
               
   User.create!(name: "しずかちゃん",
-               email: "sample-3@email.com",
+               email: "sample-5@email.com",
                affiliation: "情報システム部",
                employee_number: 6,
                uid: 6,
@@ -65,7 +65,7 @@
                superior: false)
               
   User.create!(name: "スネ夫",
-               email: "sample-4@email.com",
+               email: "sample-6@email.com",
                affiliation: "情報システム部",
                employee_number: 7,
                uid: 7,
@@ -75,7 +75,7 @@
                superior: false)
               
   User.create!(name: "ジャイアン",
-               email: "sample-5@email.com",
+               email: "sample-7@email.com",
                affiliation: "情報システム部",
                employee_number: 8,
                uid: 8,
@@ -85,7 +85,7 @@
                superior: false)
               
   User.create!(name: "のび太ママ",
-               email: "sample-6@email.com",
+               email: "sample-8@email.com",
                affiliation: "情報システム部",
                employee_number: 9,
                uid: 9,
@@ -95,7 +95,7 @@
                superior: false)
 
   User.create!(name: "のび太パパ",
-               email: "sample-7@email.com",
+               email: "sample-9@email.com",
                affiliation: "情報システム部",
                employee_number: 10,
                uid: 10,
@@ -105,7 +105,7 @@
                superior: false)
               
   User.create!(name: "ドラミちゃん",
-               email: "sample-8@email.com",
+               email: "sample-10@email.com",
                affiliation: "情報システム部",
                employee_number: 11,
                uid: 11,
@@ -113,26 +113,45 @@
                password_confirmation: "password",
                admin: false,
                superior: false)
+
+   User.create!(name: "セワシくん",
+                email: "sample-11@email.com",
+                affiliation: "情報システム部",
+                employee_number: 12,
+                uid: 12,
+                password: "password",
+                password_confirmation: "password",
+                admin: false,
+                superior: false)            
   
-  8.times do |n|
-  puts "User#{n+1}.created!"
+  9.times do |n|
+  puts "User#{n+4}.created!"
   end
  
-  5.times do |n|
-  name  = Faker::Name.name
-  email = "sample-#{n+9}@email.com"
-  password = "password"
-  User.create!(name: name,
-               email: email,
-               employee_number: n+11,
-               uid: n+11,
-               password: password,
-               password_confirmation: password,
-               admin: false,
-               superior: false)
+  12.times do |n|
+    name  = Faker::Name.name
+    email = "sample-#{n+12}@email.com"
+    affiliation = "情報システム部"
+    employee_number = n+13
+    uid = n+13
+    password = "password"
+    admin = false
+    superior = false
+
+    User.create!(name: name,
+                email: email,
+                affiliation: affiliation,
+                employee_number: employee_number,
+                uid: uid,
+                password: password,
+                password_confirmation: password,
+                admin: admin,
+                superior: superior)
   
-  puts "User#{n+9}.created! (\"#{Faker::Name.name}\")"
+    puts "User#{n+13}.created! (\"#{Faker::Name.name}\")"
   end
+
+  
 
   Base.create!(base_number: 1,
                base_name: "自宅",

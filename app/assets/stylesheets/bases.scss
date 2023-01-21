@@ -1,43 +1,44 @@
 
-  /* 入力フォーム */
-  
-  .label-new {
-    margin-top: 5px;
+/* 拠点情報 */
+
+#table-bases {
+  th {
+    vertical-align: center;
+    text-align: center;
   }
-  
-  .btn-new {
-    margin-top: 10px;
-  }
-  
-  .label-base-edit {
-    margin-top: 5px;
-  }
-  
-  .btn-base-edit {
-    margin-top: 10px;
-  }
-  
-  /* 拠点一覧 */
-  
-  #table-bases {
-    th {
-      vertical-align: center;
-      text-align: center;
-    }
     
-    td {
-      vertical-align: middle;
-      text-align: center;
-    }  
+  td {
+    vertical-align: middle;
+    text-align: center;
+  }  
+}
+
+/* 拠点情報 */
+#table-base-point {
+  margin-top: 15px;
+  th {
+    font-weight: normal;
+    vertical-align: middle;
+    text-align: center;
   }
-  
-  /* 基本情報編集モーダルウインドウ */
-  
-  .label-base-form {
-    margin-top: 5px;
+  td {
+    vertical-align: middle;
+    text-align: center;
   }
-  
-  .btn-base-form {
-    margin: 15px 0;
-    width: 30%;
-  }
+}
+
+.label-base_points_new {
+  margin-top: 10px;
+}
+
+.btn-base_points_new {
+  margin-top: 15px;
+}
+
+.label-base_points_edit {
+  margin-top: 10px;
+}
+
+.btn-base_points_edit {
+  margin-top: 15px;
+}

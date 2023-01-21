@@ -1,24 +1,51 @@
 class AttendancesController < ApplicationController
-  before_action :set_user, only: [:edit_one_month, :update_one_month]
-  before_action :logged_in_user, only: [:update, :edit_one_month, :update_one_month]
+  before_action :set_user, only: [:edit_one_month, :update_one_month,
+                                  :update_one_month_request,
+                                  :edit_attendance_change_request, :update_attendance_change_request,  
+                                  :edit_overtime_request, :update_overtime_request,
+                                  :attendances_log]
+  before_action :logged_in_user, only: [:update, 
+                                        :edit_one_month, :update_one_month,
+                                        :edit_attendance_change_request, :update_attendance_change_request,
+                                        :edit_overtime_request, :update_overtime_request,
+                                        :attendance_log]
+
+  before_action :admin_user, only: index
+  before_action :correct_user, only: [:update,
+                                      :edit_attendance_change_request, :update_attendance_change_request,
+                                      :update_one_month_request, 
+                                      :edit_overtime_request, :update_overtime_request,
+                                      :attendance_log]
+  before_action :superior_user, only:[:edit_overtime_approval, :update_overtime_approval, 
+                                      :edit_one_month_approval, :update_one_month_approval,
+                                      :edit_attendance_change_approval, :update_attendance_change_approval,
+                                      :attendance_confirmation]  
+  before_action :set_one_month, only:[:edit_attendance_change_request,
+                                      :edit_overtime_request,
+                                      :attendance_log]
+  before_action :superiors, only: [:edit_attendance_change_request, :edit_overtime_request]
+  before_action :overtime_request, only:[:edit_overtime_request, :update_overtime_request]
   before_action :admin_or_correct_user, only: [:update, :edit_one_month, :update_one_month]
-  before_action :set_one_month, only: :edit_one_month
 
   UPDATE_ERROR_MSG = "勤怠登録に失敗しました。やり直してください。"
 
-  def update
+def index # 出勤中の社員を表示
+  @users = User.all
+end
+
+  def update # 出退勤打刻
     @user = User.find(params[:user_id])
     @attendance = Attendance.find(params[:id])
     # 出勤時間が未登録であることを判定します。
     if @attendance.started_at.nil?
-      if @attendance.update_attributes(started_at: Time.current.change(sec: 0))
-        flash[:info] = "おはようございます！"
+      if @attendance.update_attributes(started_at: Time.current.change(sec: 0), started_at_before: Time.current.change(sec: 0))
+        flash[:info] = "おはようございます！出勤時間を登録しました！")
       else
         flash[:danger] = UPDATE_ERROR_MSG
       end
-    elsif @attendance.finished_at.nil?
-      if @attendance.update_attributes(finished_at: Time.current.change(sec: 0))
-        flash[:info] = "お疲れ様でした。"
+    elsif @attendance.started_at.present? && @attendance.finished_at.nil?
+      if @attendance.update_attributes(finished_at: Time.current.change(sec: 0), finished_at_before: Time.current.change(sec: 0))
+        flash[:info] = "お疲れ様でした！退勤時間を登録しました！"
       else
         flash[:danger] = UPDATE_ERROR_MSG
       end
