@@ -14,7 +14,6 @@ Rails.application.routes.draw do
       get 'attendances/edit_one_month'
       patch 'attendances/update_one_month' # この行が追加対象です。
       get 'at_work' # 出勤中社員一覧
-
       
       get 'attendances/edit_one_month_request'# 1ヶ月の勤怠申請・承認
       patch 'attendances/update_one_month_request'

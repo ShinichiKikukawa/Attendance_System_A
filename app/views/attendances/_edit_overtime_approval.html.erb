@@ -1,0 +1,70 @@
+<% provide(:title, "残業承認") %>
+<% provide(:class_text, "overtime-approval") %>
+<% provide(:btn_text, "overtime_approval") %>
+
+<div class="modal-dialog modal-lg modal-dialog-center">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h2 class="modal-title">残業申請承認</h2>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="md-col-10 md-col-offset-1">
+          <%= form_with(model: @users, url: attendances_update_overtime_approval_user_path(@users), method: :patch, local: true) do |f| %>
+            <% @users.each do |user| %>
+              <h2 class="applicant">【<%= user.name %> からの残業申請】</h2>
+              <table class="table table-bordered table-condensed table-hover", id="table-overtime-approval">
+                <thead>
+                  <tr>
+                    <th class="label-#{yield(:class_text)}">日付</th>
+                    <th class="label-#{yield(:class_text)}">曜日</th>
+                    <th class="label-#{yield(:class_text)}">終了予定時間</th>
+                    <th class="label-#{yield(:class_text)}">指定勤務終了時間</th>
+                    <th class="label-#{yield(:class_text)}">時間外時間</th>
+                    <th class="label-#{yield(:class_text)}">業務処理内容</th>
+                    <th class="label-#{yield(:class_text)}">指示者確認 &#12958;</th>
+                    <th class="label-#{yield(:class_text)}">変更</th>
+                    <th class="label-#{yield(:class_text)}">勤怠を確認する</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% user.attendances.each do |day| %>
+                    <%= f.fields_for "attendances[]", day do |attendance| %>
+                      <tr>
+                        <td><%= l(day.worked_on, format: :short) %></td>
+                        <td><%= $days_of_the_week[day.worked_on.wday] %></td>
+                        <td><%= l(day.scheduled_end_time, format: :time) %></td>
+                        <td><%= l(user.designated_work_end_time, format: :time) %></td>
+                        <td>
+                          <% if day.scheduled_end_time.present? %>
+                            <% designated_work_end_time = date_correction(day.worked_on, user.designated_work_end_time) %>
+                            <% scheduled_end_time = date_correction(day.worked_on, day.scheduled_end_time.floor_to(15.minutes)) %>
+                            <% if day.next_day_overtime == true %>
+                              <%= overtime(designated_work_end_time, scheduled_end_time.tomorrow) %>
+                            <% else %>
+                              <%= overtime(designated_work_end_time, scheduled_end_time) %>
+                            <% end %>
+                          <% end %>
+                        </td>
+                        <td><%= day.work_contents %></td>
+                        <td><%= attendance.select :confirm_superior_overtime_request, [["申請中", "申請中"], ["なし", "なし"], ["承認", "承認"], ["否認", "否認"]], {include_blank: true} %></td>
+                        <td><%= attendance.check_box :overtime_approval_check, {}, true, false %></td>
+                        <td><%= link_to "確認", user_path(user, date: day.worked_on.beginning_of_month), target: :_blank, rel: "noopener noreferrer", class: "btn btn-primary btn-sm" %></td>
+                      </tr>
+                    <% end %>
+                  <% end %>
+                </tbody>
+              </table>
+            <% end %>
+            <div class="center">
+              <%= f.submit "変更を送信する", class: "btn btn-primary btn-lg btn-#{yield(:btn_text)}" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

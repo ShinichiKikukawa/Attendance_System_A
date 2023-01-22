@@ -1,0 +1,77 @@
+<% provide(:title, "勤怠変更申請") %>
+
+<h2 class="center">勤怠変更申請</h2>
+
+<div>
+  <%= form_with(model: @user, url: attendances_update_attendance_change_request_user_path(date: @first_day), local: true, method: :patch) do |f| %>
+    <table class="table table-bordered table-condensed table-hover" id="table-attendances">
+      <thead>
+        <tr>
+          <th>日付</th>
+          <th>曜日</th>
+          <th>出社</th>
+          <th>退社</th>
+          <th>翌日</th>
+          <th>在社時間</th>
+          <th>備考</th>
+          <th>指示者確認 &#12958;</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @attendances.each do |day| %>
+          <%= f.fields_for "attendances[]", day do |attendance| %>
+            <tr>
+              <td><%= l(day.worked_on, format: :short) %></td>
+              <td><%= $days_of_the_week[day.worked_on.wday] %></td>
+              <!-- 出社時間 -->
+              <td>
+                <% if day.worked_on > Date.current %>
+                  <%= attendance.time_field :started_at, readonly: true, class: "form-control" %>
+                <% else %>
+                  <%= attendance.time_field :started_at, class: "form-control" %>
+                <% end %>
+              </td>
+              <!-- 退社時間 -->
+              <td>
+                <% if day.worked_on > Date.current %>
+                  <%= attendance.time_field :finished_at, readonly: true, class: "form-control" %>
+                <% else %>
+                  <%= attendance.time_field :finished_at, class: "form-control" %>
+                <% end %>
+              </td>
+              <!-- 翌日チェック -->
+              <td>
+                <% if day.worked_on > Date.current %>
+                  <%= attendance.check_box :next_day_attendance_change, {}, disabled: true %>
+                <% else %>
+                  <%= attendance.check_box :next_day_attendance_change, {}, checked_value = "true", unchecked_value = "false" %>
+                <% end %>
+              </td>
+              <td></td>
+              <!-- 備考 -->
+              <td>
+                <% if day.worked_on > Date.current %>
+                  <%= attendance.text_field :note, readonly: true, class: "form-control" %>
+                <% else %>
+                  <%= attendance.text_field :note, class: "form-control" %>
+                <% end %>
+              </td>
+              <!-- 指示者確認印 -->
+              <td>
+                <% if day.worked_on > Date.current %>
+                  <%= attendance.collection_select :selector_attendance_change_request, @superiors, :name, :name, {disabled: true, include_blank: true}, {class: "form-control"} %>
+                <% else %>
+                  <%= attendance.collection_select :selector_attendance_change_request, @superiors, :name, :name, {include_blank: true}, {class: "form-control"} %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>    
+        <% end %>
+      </tbody>
+    </table>
+    <div class="center">
+      <%= link_to "キャンセル", user_path(date: @first_day), class: "btn btn-primary" %>
+      <%= f.submit "編集を保存する", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>

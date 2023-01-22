@@ -63,17 +63,17 @@ class ApplicationController < ActionController::Base
     end
   end
 
-    def correct_user_or_superior
-      @user = User.find(params[:id]) if @user.blank?
-      unless current_user?(@user) || current_user.superior?
-        flash[:danger] = "参照・編集権限がありません。"
-        redirect_to root_url
-      end
+  def correct_user_or_superior
+    @user = User.find(params[:id]) if @user.blank?
+    unless current_user?(@user) || current_user.superior?
+      flash[:danger] = "参照・編集権限がありません。"
+      redirect_to root_url
     end
+  end
     
-    def superior_user
-      redirect_to root_url unless current_user.suoerior?
-    end
+  def superior_user
+    redirect_to root_url unless current_user.suoerior?
+  end
 
   def superiors
     @superiors = User.where(superior: true).where.not(name: @user.name)
