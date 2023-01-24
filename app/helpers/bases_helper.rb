@@ -1,2 +1,2 @@
-module BasePointsHelper
+module BasesHelper
 end
