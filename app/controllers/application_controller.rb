@@ -72,7 +72,7 @@ class ApplicationController < ActionController::Base
   end
     
   def superior_user
-    redirect_to root_url unless current_user.suoerior?
+    redirect_to root_url unless current_user.superior?
   end
 
   def superiors

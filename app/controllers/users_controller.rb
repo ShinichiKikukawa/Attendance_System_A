@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info]
-  before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info, :edit_overtime_request,]
-  before_action :admin_user, only: [:index, :destroy, :at_work, :edit_basic_info, :update_basic_info]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :edit_basic_info]
+  before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy, :edit_basic_info, :edit_overtime_request]
+  before_action :admin_user, only: [:index, :destroy, :edit_basic_info, :at_work]
   before_action :admin_or_correct_user, only: [:edit, :update]
   before_action :admin_impossible, only: :show
   before_action :correct_user, only: :show
@@ -119,15 +119,6 @@ class UsersController < ApplicationController
   end
 
   def edit_basic_info
-  end                                     
-  
-  def update_basic_info
-    if @user.update_attributes(basic_info_params)
-      flash[:success] = "#{@user.name}のユーザー情報を更新しました。"
-    else
-      flash[:danger] = "#{@user.name}のユーザー情報を更新出来ませんでした。"
-    end
-    redirect_to users_url
   end
 
   def at_work # 出勤社員一覧 挙動を確認する。

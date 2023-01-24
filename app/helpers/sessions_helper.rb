@@ -1,21 +1,17 @@
 module SessionsHelper
 
-  # 引数に渡されたユーザーオブジェクトでログインする。
-   # ブラウザの一時的cookiesに暗号化済みのuser.idが自動で生成される。
-  def log_in(user)
+  def log_in(user) # 引数に渡されたユーザーオブジェクトでログインする。 # ブラウザの一時的cookiesに暗号化済みのuser.idが自動で生成される。
     session[:user_id] = user.id
   end
 
-  # 永続的セッションを記憶します（Userモデルを参照）
-  def remember(user)
+  def remember(user) # 永続的セッションを記憶します。（Userモデルを参照）
     user.remember
     cookies.permanent.signed[:user_id] = user.id
     cookies.permanent[:remember_token] = user.remember_token
   end
 
-  # 永続的セッションを破棄します
-  def forget(user)
-    user.forget # Userモデル参照
+  def forget(user) # 永続的セッションを破棄します。 (Userモデルを参照)
+    user.forget 
     cookies.delete(:user_id)
     cookies.delete(:remember_token)
   end

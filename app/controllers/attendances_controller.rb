@@ -1,31 +1,28 @@
 class AttendancesController < ApplicationController
-  # before_action :set_user, only: [:edit_one_month, :update_one_month,
-  #                                 :update_one_month_request,
-  #                                 :edit_attendance_change_request, :update_attendance_change_request,  
-  #                                 :edit_overtime_request, :update_overtime_request,
-  #                                 :attendances_log]
-  # before_action :logged_in_user, only: [:update, 
-  #                                       :edit_one_month, :update_one_month,
-  #                                       :edit_attendance_change_request, :update_attendance_change_request,
-  #                                       :edit_overtime_request, :update_overtime_request,
-  #                                       :attendance_log]
-
+  before_action :set_user, only: [:update_one_month_request,
+                                  :edit_attendance_change_request, :update_attendance_change_request,  
+                                  :edit_overtime_request, :update_overtime_request,
+                                  :attendance_log]
+  before_action :logged_in_user, only: [:update, 
+                                        :edit_one_month, :update_one_month,
+                                        :edit_attendance_change_request, :update_attendance_change_request,
+                                        :edit_overtime_request, :update_overtime_request,
+                                        :attendance_log]
   # before_action :admin_user, only: index
-  # before_action :correct_user, only: [:update,
-  #                                     :edit_attendance_change_request, :update_attendance_change_request,
-  #                                     :update_one_month_request, 
-  #                                     :edit_overtime_request, :update_overtime_request,
-  #                                     :attendance_log]
-  # before_action :superior_user, only:[:edit_overtime_approval, :update_overtime_approval, 
-  #                                     :edit_one_month_approval, :update_one_month_approval,
-  #                                     :edit_attendance_change_approval, :update_attendance_change_approval,
-  #                                     :attendance_confirmation]  
-  # before_action :set_one_month, only:[:edit_attendance_change_request,
-  #                                     :edit_overtime_request,
-  #                                     :attendance_log]
-  # before_action :superiors, only: [:edit_attendance_change_request, :edit_overtime_request]
-  # before_action :overtime_request, only:[:edit_overtime_request, :update_overtime_request]
-  # before_action :admin_or_correct_user, only: [:update, :edit_one_month, :update_one_month]
+  before_action :correct_user, only: [:update,
+                                      :update_one_month_request,
+                                      :edit_attendance_change_request, :update_attendance_change_request,
+                                      :edit_overtime_request, :update_overtime_request,
+                                      :attendance_log]
+  before_action :superior_user, only:[:edit_one_month_approval, :update_one_month_approval,
+                                      :edit_attendance_change_approval, :update_attendance_change_approval,
+                                      :edit_overtime_approval, :update_overtime_approval, 
+                                      :attendance_confirmation]  
+  before_action :set_one_month, only:[:edit_attendance_change_request,
+                                      :edit_overtime_request,
+                                      :attendance_log]
+  before_action :superiors, only: [:edit_attendance_change_request, :edit_overtime_request]
+  before_action :overtime_request, only:[:edit_overtime_request, :update_overtime_request]
 
   UPDATE_ERROR_MSG = "勤怠登録に失敗しました。やり直してください。"
 
@@ -230,7 +227,7 @@ class AttendancesController < ApplicationController
   end
 
 
-  def attendances_confirmation # 上長勤怠確認
+  def attendance_confirmation # 上長勤怠確認
   end
 
 
