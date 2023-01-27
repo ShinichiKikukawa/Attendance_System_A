@@ -1,5 +1,5 @@
 <% provide(:class_text, 'basic-info') %>
-<% provide(:button_text, '更新') %>
+<% provide(:btn_text, '更新') %>
 
 <div class="modal-dialog modal-lg modal-dialog-center">
   <div class="modal-content">
@@ -28,7 +28,7 @@
             <%= f.time_field :work_time, class: "form-control" %>
 
             <div class="center">
-              <%= f.submit yield(:button_text), class: "btn btn-primary btn-#{yield(:class_text)}" %>
+              <%= f.submit yield(:btn_text), class: "btn btn-primary btn-#{yield(:class_text)}" %>
               <button type="button" class="btn btn-default btn-<%= yield(:class_text) %>" data-dismiss="modal">
                 キャンセル
               </button>

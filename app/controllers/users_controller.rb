@@ -13,8 +13,7 @@ class UsersController < ApplicationController
   end
 
   def show # 出勤日数
-    @worked_sum = @attendances.where.not(started_at_before: nil)
-                                    .or(@attendances.where.not(started_at: nil).where(confirm_superior_attendance_change_request: "承認")).count
+    @worked_sum = @attendances.where.not(started_at: nil).count
 
     if current_user.superior? # 所属長承認申請のお知らせ（上長ごとに、1ヶ月分の勤怠申請がされている件数をカウント）
       @one_month_request = Attendance.where(selector_one_month_request: current_user.name)

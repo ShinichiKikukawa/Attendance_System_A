@@ -107,7 +107,7 @@
           <% end %>
         </td>
         <td><%= l(day.worked_on, format: :short) %></td> <!-- 2日付 -->
-        <td><%= $days_of_the_week[day.worked_on.wday] %></td> <!-- 3曜日 -->
+        <td class="<%= "wday#{day.worked_on.wday}" %>"><%= $days_of_the_week[day.worked_on.wday] %></td> <!-- 3曜日 -->
       
         <td> <!-- 4出社時間(時)-->
           <% if day.started_at.present? %>
@@ -198,9 +198,9 @@
             <% @total_overtime = @total_overtime.to_f + overtime.to_f %>
           <% end %>
         </td>
-       
+
         <td><%= day.work_contents if day.work_contents.present? %></td> <!-- 15業務処理内容 -->
-       
+
         <td> <!-- 16指示者確認印 -->
           <%= day.instructor if day.instructor.present? %></br>
           <%= day.instructor_attendance_change if day.instructor_attendance_change.present? %>
@@ -210,7 +210,7 @@
     </tbody>
       <%
 =begin%>
- <tbody>
+<tbody>
         <% @attendances.each do |day| %>
         
             <td> <!-- 1残業申請ボタン -->
@@ -250,17 +250,17 @@
 
     <tfoot>
       <tr>
-        <td colspan="2">累計日数</td><!--rowspan:縦連結、colspan：横連結-->
-        <td colspan="6">総合勤務時間</td>
-        <td colspan="2">累計在社時間</td>
+        <td colspan="8">累計日数</td><!--rowspan:縦連結、colspan：横連結-->
+        <td colspan="4">総合勤務時間</td>
+        <td colspan="3">累計在社時間</td>
+        <td colspan="1"></td>
       </tr>
       <tr>
-        <td colspan="2"><%= @attendances.count %></td>
-        <td colspan="6"><%= format_basic_info(@user.work_time).to_f * @worked_sum %></td>
-        <td colspan="2"><%= format("%.2f", @total_working_time.to_f) %></td>
-        <td colspan="5"></td>
+        <td colspan="8"><%= @attendances.count %>日</td>
+        <td colspan="4"><%= format_basic_info(@user.work_time).to_f * @worked_sum %>時間</td>
+        <td colspan="3"><%= format("%.2f", @total_working_time.to_f) %>時間</td>
         
-        <td> <!-- 1ヶ月分の勤怠を申請する -->
+        <td colspan="1"> <!-- 1ヶ月分の勤怠を申請する -->
           <% day = @attendances.find_by(worked_on: @last_day) %>
           <% if current_user?(@user) || current_user.admin? %>
             <%= form_with(model: @user, url: attendances_update_one_month_request_user_path(@user), method: :patch, local: true) do |f| %>
@@ -277,7 +277,7 @@
                   </span></br>
                   <%= attendance.collection_select :selector_one_month_request, @superiors, :name, :name, {include_blank: true}, class: "form-control" %>
               <% end %>
-              <%= f.submit "申請", class: "btn btn-primary btn-sm btn-block", id: "btn-one_month-request" %>
+              <%= f.submit "申請", class: "btn btn-primary btn-sm btn-block", id: "btn-one-month-request" %>
             <% end %>
           <% else %>
               所属長承認

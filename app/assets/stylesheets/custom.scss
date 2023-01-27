@@ -1,9 +1,7 @@
-
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
 /* universal */
-
 body {
   padding-top: 60px;
 }
@@ -29,7 +27,6 @@ textarea {
 }
 
 /* typography */
-
 h1, h2, h3, h4, h5, h6 {
   line-height: 1;
 }
@@ -57,7 +54,6 @@ p {
 }
 
 /* header */
-
 #logo {
   float: left;
   margin-right: 10px;
@@ -73,21 +69,295 @@ p {
   color: #fff;
   text-decoration: none;
 }
-
-/* debug */
-
-.debug_dump {
-  clear: both;
-  float: left;
-  width: 100%;
-  margin-top: 45px;
-  -moz-box-sizing:    border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing:         border-box;
+/* 入力フォーム */
+.label-signup {
+  margin-top: 5px;
 }
 
-/* error_messages */
+.btn-signup {
+  margin-top: 10px;
+}
 
+.label-user--edit {
+  margin-top: 5px;
+}
+
+.btn-user--edit {
+  margin-top: 10px;
+}
+/* ログインフォーム */
+.label-login {
+  margin-top: 5px;
+}
+
+.btn-login {
+  margin-top: 10px;
+}
+
+.checkbox-login {
+  width: auto;
+  margin-left: 25px;
+  span {
+    font-weight: normal;
+  }
+}
+
+/* ユーザー情報テーブル */
+.user-table {
+  vertical-align: middle;
+  text-align: center;
+}
+
+
+/* ユーザー情報下ボタン */
+.btn-users-show {
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+
+/* 勤怠情報テーブル（勤怠表） */
+#table-attendances {
+  margin-top: 20px;
+  th {
+    font-weight: normal;
+    vertical-align: middle;
+    text-align: center;
+  }
+  td {
+    vertical-align: middle;
+    text-align: center;
+  }
+}
+
+.wday0 {
+  color: red;
+}
+
+.wday6 {
+  color: blue;
+}
+
+/* ユーザー一覧ページ */
+#table-users {
+  td {
+    vertical-align: middle;
+  }  
+}
+.btn-notice {
+  color: black;
+  .hover {
+    text-decoration: none;
+  }
+}
+
+.request-notice {
+  color: red;
+}
+
+.btn-user-attendance {
+  margin-top: 15px;
+}
+
+.btn-users-month {
+  margin: 20px;
+}
+
+#table-users {
+  margin-top: 10px;
+  td {
+    border: none;
+  }
+}
+
+.csv-button {
+  margin-top: 5px;
+}
+
+
+/* 1ヶ月分の勤怠承認申請 */
+#table-monthly-attendance {
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  th {
+    font-weight: normal;
+    vertical-align: middle;
+    text-align: center;
+    width: auto;
+  }
+  td {
+    vertical-align: middle;
+    text-align: center;
+    width: auto;
+  }
+}
+
+#btn-one-month-request {
+  margin-top: 10px;
+}
+
+.btn-monthly-attendance-approval {
+  margin-top: 15px;
+}
+
+
+/* 勤怠変更申請・承認 */
+#table-attendances-change {
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  h2 {
+    margin-top: 30px;
+  }
+  th {
+    font-weight: normal;
+    vertical-align: middle;
+    text-align: center;
+  }
+  td {
+    vertical-align: middle;
+    text-align: center;
+  }
+}
+
+
+/* 残業申請 */
+#table-overtime-application {
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  th {
+    font-weight: normal;
+    vertical-align: middle;
+    text-align: center;
+  }
+  td {
+    vertical-align: middle;
+    text-align: center;
+  }
+}
+
+/* 残業承認 */
+#table-overtime-approval {
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  h2 {
+    margin-top: 30px;
+  }
+  th {
+    font-weight: normal;
+    vertical-align: middle;
+    text-align: center;
+  }
+  td {
+    vertical-align: middle;
+    text-align: center;
+  }
+}
+
+/* 勤怠ログ */
+#attendance-log-search {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  th {
+    font-weight: normal;
+    vertical-align: middle;
+    text-align: center;
+  }
+  td {
+    font-weight: normal;
+    vertical-align: middle;
+  }
+}
+
+.search-date {
+  display: inline-block;
+}
+
+#attendance-log {
+  margin-top: 30px;
+  th {
+    font-weight: normal;
+    vertical-align: middle;
+    text-align: center;
+  }
+  td {
+    font-weight: normal;
+    vertical-align: middle;
+    text-align: center;
+  }
+}
+
+/* 出勤中社員一覧 */
+#table-at-work {
+  th {
+    font-weight: normal;
+    vertical-align: middle;
+    text-align: center;
+  }
+  td {
+    vertical-align: middle;
+    text-align: center;
+  }
+}
+
+/* 基本情報編集モーダルウインドウ */
+.label-basic-info {
+  margin-top: 5px;
+}
+
+.btn-basic-info {
+  margin: 15px 0;
+  width: 30%;
+}
+
+
+/* 拠点情報 */
+#table-bases {
+  th {
+    vertical-align: center;
+    text-align: center;
+  }
+    
+  td {
+    vertical-align: middle;
+    text-align: center;
+  }  
+}
+
+/* 拠点情報 */
+#table-base-point {
+  margin-top: 15px;
+  th {
+    font-weight: normal;
+    vertical-align: middle;
+    text-align: center;
+  }
+  td {
+    vertical-align: middle;
+    text-align: center;
+  }
+}
+
+.label-base_points_new {
+  margin-top: 10px;
+}
+
+.btn-base_points_new {
+  margin-top: 15px;
+}
+
+.label-base_points_edit {
+  margin-top: 10px;
+}
+
+.btn-base_points_edit {
+  margin-top: 15px;
+}
+
+
+/* error_messages */
 #error_explanation {
   color: red;
   ul {
@@ -102,14 +372,33 @@ p {
     color: $state-danger-text;
   }
 }
-/* モーダルウインドウの位置調整 */
 
+
+/* モーダルウインドウの位置調整 */
 .modal-dialog-center {
   padding-top: 10%;
 }
 
+.label-overtime-application {
+  padding: 15px;
+}
+
+.btn-overtime_application {
+  margin: 15px;
+}
 
 /* 勤怠表 */
 .csv-button {
   margin-top: 5px;
+}
+
+/* debug */
+.debug_dump {
+  clear: both;
+  float: left;
+  width: 100%;
+  margin-top: 45px;
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:         border-box;
 }

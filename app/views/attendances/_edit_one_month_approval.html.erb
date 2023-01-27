@@ -8,13 +8,14 @@
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
+       <h1 class="modal-title">１ヶ月分の勤怠承認</h1>
     </div>
     <div class="modal-body">
       <div class="row">
         <div class="md-col-10 md-col-offset-1">
           <%= form_with(model: @users, url: attendances_update_one_month_approval_user_path(@users), method: :patch, local: true) do |f| %>
             <% @users.each do |user| %>
-              <h2>【<%= user.name %> からの1ヶ月分勤怠申請】</h2>
+              <h1>【<%= user.name %> からの１ヶ月分勤怠申請】</h1>
               <table class="table table-bordered table-condensed table-hover", id="table-monthly-attendance">
                 <thead>
                   <tr>

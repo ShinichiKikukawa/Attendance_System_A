@@ -1,42 +1,45 @@
 <% provide(:title, 'All Users') %>
+<% provide(:class_text, "user--edit") %>
 <% provide(:btn_text, "更新") %>
 
 <div class="row">
   <h1>ユーザ一覧</h1>
+    <%= form_with(url: import_users_path) do |f| %>
+      <%= f.file_field :file, accept: '.csv' %>
+      <%= f.submit "csvをインポート", class: "btn btn-primary csv-button" %>
+    <% end %> 
 
-<%= form_with(url: import_users_path) do |f| %>
-    <%= f.file_field :file, accept: '.csv' %>
-    <%= f.submit "csvをインポート", class: "btn btn-primary csv-button" %>
-<% end %>
-
-<div class="col-md-11 col-md-offset-1">
-  <% @users.each do |user| %>
-    <% unless user.admin? %>
-      <table>
-        <div class="row">
-          <tr>
-            <%= user.name %><br>
-            <td class="center">
-              <%= link_to "削除", user, method: :delete,
-                data: { confirm: "#{user.name}のデータを削除してもよろしいですか？" }, class: "btn btn-lg btn-primary" %>
-            </td>
-          </tr>
-        </div>
-      </table>
-  
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            <button type="button" class="btn btn-lg btn-primary" data-toggle="collapse" data-target="#collapse<%= user.id %>">編集</button>
-          </h4>
-        </div>
-        <div id="collapse<%= user.id %>" class="panel-collapse collapse out">
-          <div class="panel-body">
-            <p class="text-right"><a class="btn btn-link collapse-close" href="#">&times;</a></p>
-            <%= render 'users/form_index', locals: {user: @user = User.find_by(id: user.id) } %>
+  <%= will_paginate %>
+  <div class="col-md-11 col-md-offset-1">
+    <% @users.each do |user| %>
+      <% unless user.admin? %>
+        <table>
+          <div class="row">
+            <tr>
+              <%= user.name %><br>
+              <td class="center">
+                <%= link_to "削除", user, method: :delete,
+                  data: { confirm: "#{user.name}のデータを削除してもよろしいですか？" }, class: "btn btn-lg btn-primary" %>
+              </td>
+            </tr>
+          </div>
+        </table>
+    
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <button type="button" class="btn btn-lg btn-primary" data-toggle="collapse" data-target="#collapse<%= user.id %>">編集</button>
+            </h4>
+          </div>
+          <div id="collapse<%= user.id %>" class="panel-collapse collapse out">
+            <div class="panel-body">
+              <p class="text-right"><a class="btn btn-link collapse-close" href="#">&times;</a></p>
+              <%= render 'users/form_index', locals: {user: @user = User.find_by(id: user.id) } %>
+            </div>
           </div>
         </div>
-      </div>
+      <% end %>
     <% end %>
-  <% end %>
+    <%= will_paginate %>
+  </div>
 </div>
