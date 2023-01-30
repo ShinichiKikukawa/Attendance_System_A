@@ -34,7 +34,7 @@
           <div id="collapse<%= user.id %>" class="panel-collapse collapse out">
             <div class="panel-body">
               <p class="text-right"><a class="btn btn-link collapse-close" href="#">&times;</a></p>
-              <%= render 'users/form_index', locals: {user: @user = User.find_by(id: user.id) } %>
+              <%= render 'users/form', locals: {user: @user = User.find_by(id: user.id) } %>
             </div>
           </div>
         </div>

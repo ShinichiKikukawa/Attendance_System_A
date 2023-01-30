@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
 
   def admin_user# 管理者ユーザーのみ# システム管理権限所有かどうか判定します。# 管理者ユーザーのみ
     unless current_user.admin?
-      flash[:danger] = "参照・編集権限がありません。"
+      flash[:danger] = "参照・編集権限がありません。error-code1"
       redirect_to root_url
     end
   end
@@ -26,14 +26,13 @@ class ApplicationController < ActionController::Base
   def admin_or_correct_user # ログインユーザーまたは管理者
     @user = User.find(params[:user_id]) if @user.blank?
     unless current_user?(@user) || current_user.admin?
-      flash[:danger] = "参照・編集権限がありません。"
+      flash[:danger] = "参照・編集権限がありません。error-code2"
       redirect_to users_url
     end
   end
   
   def admin_impossible # 管理者は勤怠画面の表示と編集は不可
     if current_user.admin?
-      flash[:danger] = "管理者は勤怠画面の表示および編集はできません。"
       redirect_to users_url
     end
   end
@@ -45,19 +44,19 @@ class ApplicationController < ActionController::Base
         if params[:date].present?
           first_day = params[:date].to_date
           attendances = @user.attendances.where(worked_on: first_day..first_day.end_of_month)
-          if attendances.pluck(:selector_superior_one_month_request).include?("#{current_user.name}")
-          elsif attendances.pluck(:selector_superior_attandance_change_request).include?("#{current_user.name}")
-          elsif attendances.pluck(:selector_superior_overtime_request).include?("#{current_user.name}")
+          if attendances.pluck(:selector_one_month_request).include?("#{current_user.name}")
+          elsif attendances.pluck(:selector_attendance_change_request).include?("#{current_user.name}")
+          elsif attendances.pluck(:selector_overtime_request).include?("#{current_user.name}")
           else
-            flash[:danger] = "参照・編集権限がありません。"
+            flash[:danger] = "参照・編集権限がありません。error-code3"
             redirect_to root_url
           end
         else
-          flash[:danger] = "参照・編集権限がありません。"
+          flash[:danger] = "参照・編集権限がありません。error-code4"
           redirect_to root_url
         end
       else
-        flash[:danger] = "参照・編集権限がありません。"
+        flash[:danger] = "参照・編集権限がありません。error-code5"
         redirect_to root_url
       end
     end
@@ -66,7 +65,7 @@ class ApplicationController < ActionController::Base
   def correct_user_or_superior
     @user = User.find(params[:id]) if @user.blank?
     unless current_user?(@user) || current_user.superior?
-      flash[:danger] = "参照・編集権限がありません。"
+      flash[:danger] = "参照・編集権限がありません。error-code6"
       redirect_to root_url
     end
   end
@@ -95,6 +94,6 @@ class ApplicationController < ActionController::Base
 
   rescue ActiveRecord::RecordInvalid # トランザクションによるエラーの分岐です。
     flash[:danger] = "ページ情報の取得に失敗しました、再アクセスしてください。"
-    redirect_to root_url
+    redirect_to @user
   end
 end

@@ -175,7 +175,7 @@ p {
 
 
 /* 1ヶ月分の勤怠承認申請 */
-#table-monthly-attendance {
+#table-one-month-attendance {
   width: 95%;
   margin-left: auto;
   margin-right: auto;
@@ -196,7 +196,7 @@ p {
   margin-top: 10px;
 }
 
-.btn-monthly-attendance-approval {
+.btn-one-month-attendance-approval {
   margin-top: 15px;
 }
 
@@ -222,7 +222,7 @@ p {
 
 
 /* 残業申請 */
-#table-overtime-application {
+#table-overtime-request {
   width: 95%;
   margin-left: auto;
   margin-right: auto;
@@ -315,19 +315,6 @@ p {
 
 /* 拠点情報 */
 #table-bases {
-  th {
-    vertical-align: center;
-    text-align: center;
-  }
-    
-  td {
-    vertical-align: middle;
-    text-align: center;
-  }  
-}
-
-/* 拠点情報 */
-#table-base-point {
   margin-top: 15px;
   th {
     font-weight: normal;
@@ -340,19 +327,11 @@ p {
   }
 }
 
-.label-base_points_new {
-  margin-top: 10px;
-}
-
-.btn-base_points_new {
+.btn-base-form {
   margin-top: 15px;
 }
 
-.label-base_points_edit {
-  margin-top: 10px;
-}
-
-.btn-base_points_edit {
+.btn-base-edit {
   margin-top: 15px;
 }
 

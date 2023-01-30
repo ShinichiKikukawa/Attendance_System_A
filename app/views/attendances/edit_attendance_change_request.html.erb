@@ -59,9 +59,9 @@
               <!-- 指示者確認印 -->
               <td>
                 <% if day.worked_on > Date.current %>
-                  <%= attendance.collection_select :selector_attendance_change_request, @superiors, :name, :name, {disabled: true, include_blank: true}, {class: "form-control"} %>
+                  <%= attendance.collection_select :selector_attendance_change_request, @superiors, :name, :name, {disabled: true, include_blank: "---"}, {class: "form-control"} %>
                 <% else %>
-                  <%= attendance.collection_select :selector_attendance_change_request, @superiors, :name, :name, {include_blank: true}, {class: "form-control"} %>
+                  <%= attendance.collection_select :selector_attendance_change_request, @superiors, :name, :name, {include_blank: "---"}, {class: "form-control"} %>
                 <% end %>
               </td>
             </tr>

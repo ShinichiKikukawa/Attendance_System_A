@@ -16,7 +16,7 @@
           <%= form_with(model: @users, url: attendances_update_one_month_approval_user_path(@users), method: :patch, local: true) do |f| %>
             <% @users.each do |user| %>
               <h1>【<%= user.name %> からの１ヶ月分勤怠申請】</h1>
-              <table class="table table-bordered table-condensed table-hover", id="table-monthly-attendance">
+              <table class="table table-bordered table-condensed table-hover", id="table-one-month-attendance">
                 <thead>
                   <tr>
                     <th>月</th>

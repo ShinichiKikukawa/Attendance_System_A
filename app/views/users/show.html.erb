@@ -275,7 +275,7 @@
                       <%= day.one_month_approval_result %>
                     <% end %>
                   </span></br>
-                  <%= attendance.collection_select :selector_one_month_request, @superiors, :name, :name, {include_blank: true}, class: "form-control" %>
+                  <%= attendance.collection_select :selector_one_month_request, @superiors, :name, :name, {include_blank: "選択してください"}, class: "form-control" %>
               <% end %>
               <%= f.submit "申請", class: "btn btn-primary btn-sm btn-block", id: "btn-one-month-request" %>
             <% end %>

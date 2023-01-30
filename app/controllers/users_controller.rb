@@ -13,8 +13,8 @@ class UsersController < ApplicationController
   end
 
   def show # 出勤日数
-    @worked_sum = @attendances.where.not(started_at: nil).count
-
+    @worked_sum = @attendances.where.not(started_at: nil)
+                              .or(@attendances.where.not(started_at_before: nil).where(confirm_superior_attendance_change_request: "承認")).count
     if current_user.superior? # 所属長承認申請のお知らせ（上長ごとに、1ヶ月分の勤怠申請がされている件数をカウント）
       @one_month_request = Attendance.where(selector_one_month_request: current_user.name)
                                     .where(one_month_approval_result: [nil, '']).count
@@ -98,7 +98,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    if @user.update_attributes(user_params)
+    if @user.update(user_params)
       flash[:success] = "#{@user.name}のユーザー情報を更新しました。"
       if current_user.admin?
         redirect_to users_url(current_user)

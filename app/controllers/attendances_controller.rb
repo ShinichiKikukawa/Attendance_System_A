@@ -4,11 +4,10 @@ class AttendancesController < ApplicationController
                                   :edit_overtime_request, :update_overtime_request,
                                   :attendance_log]
   before_action :logged_in_user, only: [:update, 
-                                        :edit_one_month, :update_one_month,
                                         :edit_attendance_change_request, :update_attendance_change_request,
                                         :edit_overtime_request, :update_overtime_request,
                                         :attendance_log]
-  # before_action :admin_user, only: index
+  #before_action :admin_user, only: index
   before_action :correct_user, only: [:update,
                                       :update_one_month_request,
                                       :edit_attendance_change_request, :update_attendance_change_request,
@@ -29,22 +28,21 @@ class AttendancesController < ApplicationController
   def index # 出勤中の社員を表示
     @users = User.all
   end
-
+  
   def update
     @user = User.find(params[:user_id])
     @attendance = Attendance.find(params[:id])
-    # 出勤時間が未登録であることを判定します。
-    if @attendance.started_at.nil?
-      if @attendance.update_attributes(started_at: Time.current.change(sec: 0))
-        flash[:info] = "おはようございます！出勤時間を登録しました！"
+    if @attendance.started_at.nil? # 出勤時間が未登録であることを判定します。
+      if @attendance.update(started_at: Time.current.change(sec: 0), started_at_before: Time.current.change(sec: 0))
+        flash[:success] = "おはようございます! 出勤時間を登録しました!"
       else
         flash[:danger] = UPDATE_ERROR_MSG
       end
-    elsif @attendance.finished_at.nil?
-      if @attendance.update_attributes(finished_at: Time.current.change(sec: 0))
-        flash[:info] = "お疲れ様でした！退勤時間を登録しました！"
+    elsif @attendance.started_at.present? && @attendance.finished_at.nil?
+      if @attendance.update(finished_at: Time.current.change(sec: 0), finished_at_before: Time.current.change(sec: 0))
+        flash[:success] = "お疲れ様でした! 退勤時間を登録しました!"
       else
-        flash[:danger] = UPDATE_ERROR_MSG
+        flash[:danger] = UPDATE_ERROR_MSG  
       end
     end
     redirect_to @user

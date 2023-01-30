@@ -1,7 +1,7 @@
 <% provide(:title, "#{@user.name}勤怠ログ") %>
 
 <div class="row">
-  <h2>勤怠ログ</h2>
+  <h1>勤怠ログ</h1>
 
   <div class="col-md-3">
     <%= form_with(model: @attendances, url: attendances_attendance_log_user_path, local: true, method: :get) do |f| %>
@@ -31,8 +31,8 @@
         <% @attendances.each do |attendance| %>
           <tr>
             <td><%= attendance.worked_on %></td>
-            <td><%= attendance.started_at_before.floor_to(15.minutes).strftime("%R") if attendance.change_before_started_at.present? %></td>
-            <td><%= attendance.finished_at_before.floor_to(15.minutes).strftime("%R") if attendance.change_before_finished_at.present? %></td>
+            <td><%= attendance.started_at_before.floor_to(15.minutes).strftime("%R") if attendance.started_at_before.present? %></td>
+            <td><%= attendance.finished_at_before.floor_to(15.minutes).strftime("%R") if attendance.finished_at_before.present? %></td>
             <td><%= attendance.started_at.floor_to(15.minutes).strftime("%R") if attendance.started_at.present? %></td>
             <td><%= attendance.finished_at.floor_to(15.minutes).strftime("%R") if attendance.finished_at.present? %></td>
             <td><%= attendance.instructor_attendance_log %></td>
