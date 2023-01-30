@@ -1,4 +1,4 @@
-# fly.toml file generated for attendance-system--a on 2023-01-31T00:46:30+09:00
+# fly.toml file generated for attendance-system--a on 2023-01-31T02:09:05+09:00
 
 app = "attendance-system--a"
 kill_signal = "SIGINT"
