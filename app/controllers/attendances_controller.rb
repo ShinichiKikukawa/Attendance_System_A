@@ -48,7 +48,7 @@ class AttendancesController < ApplicationController
     redirect_to @user
   end
 
-  def edit_one_month_request# 1ヶ月の勤怠承認申請
+  def edit_one_month_request #1ヶ月分の勤怠申請
   end
 
   def update_one_month_request
@@ -126,7 +126,7 @@ class AttendancesController < ApplicationController
     redirect_to attendances_edit_attendance_change_request_user_url(date: params[:date])
   end
 
-  def edit_attendance_change_approval # 勤怠変更申請承認
+  def edit_attendance_change_approval # 勤怠変更承認
     @users = User.includes(:attendances).where(attendances: { selector_attendance_change_request: current_user.name })
                                         .where("instructor_attendance_change LIKE ?", "%申請中").order("attendances.worked_on")
   end
@@ -156,6 +156,7 @@ class AttendancesController < ApplicationController
             attendance.selector_attendance_change_request = nil
           end
           attendance.attendance_change_approval_day = Date.current
+          
           if attendance.update!(item)
             flash[:success] = "勤怠変更申請の結果を送信しました。"
           end

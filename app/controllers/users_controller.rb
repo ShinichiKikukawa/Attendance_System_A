@@ -46,12 +46,12 @@ class UsersController < ApplicationController
       
       attendances.each do |day|# column_valuesに代入するカラム値を定義します。 # column_valuesに代入するカラム値を定義
         column_values = [day.worked_on.strftime("%Y年%m月%d日(#{$days_of_the_week[day.worked_on.wday]})"),
-          if day.started_at.present? 
+          if day.started_at.present? && (day.confirm_superior_attendance_change_request == "承認").present?
             l(day.started_at, format: :time)
           else
             nil
           end,
-          if day.finished_at.present? 
+          if day.finished_at.present? && (day.confirm_superior_attendance_change_request == "承認").present?
             l(day.finished_at, format: :time)
           else
             nil
@@ -61,7 +61,7 @@ class UsersController < ApplicationController
       end
     end
 
-    send_data(csv_data, filename: "#{Time.zone.now.strftime('%Y年%m月')}#{User.find(params[:id]).name}勤怠情報.csv") # csv出力のファイル名を定義します。
+    send_data(csv_data, filename: "#{l(@first_day, format: :middle)}#{User.find(params[:id]).name}勤怠情報.csv") # csv出力のファイル名を定義します。
   end
 
   def create
@@ -77,7 +77,7 @@ class UsersController < ApplicationController
   end
 
   def index
-    @users = User.paginate(page: params[:page], per_page: 10)
+    @users = User.paginate(page: params[:page], per_page: 10).order("id ASC")
   end
 
   def import
