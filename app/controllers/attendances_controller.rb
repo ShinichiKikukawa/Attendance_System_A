@@ -26,7 +26,7 @@ class AttendancesController < ApplicationController
   UPDATE_ERROR_MSG = "勤怠登録に失敗しました。やり直してください。"
 
   def index # 出勤中の社員を表示
-    @users = User.all
+    @users = User.all.order("id ASC")
   end
   
   def update
@@ -51,7 +51,7 @@ class AttendancesController < ApplicationController
   def edit_one_month_request #1ヶ月分の勤怠申請
   end
 
-  def update_one_month_request
+  def update_one_month_request #1ヶ月分の勤怠更新
     one_month_request_params.each do |id, item|
       attendance = Attendance.find(id)
       attendance.one_month_approval_result = nil
@@ -66,18 +66,17 @@ class AttendancesController < ApplicationController
       else
         flash[:danger] = "所属長を選択してください。"
       end
-      redirect_to user_url(@user, date: attendance.worked_on.beginning_of_month)
+        redirect_to user_url(@user, date: attendance.worked_on.beginning_of_month)
     end
   end
 
-  # 1ヶ月の勤怠承認
-  def edit_one_month_approval
+  def edit_one_month_approval # 1ヶ月分の勤怠承認
     @users = User.includes(:attendances).where(attendances: {selector_one_month_request: current_user.name})
                                         .where(attendances: {one_month_approval_result: [nil, '']})
                                         .order("attendances.worked_on")
   end
 
-  def update_one_month_approval
+  def update_one_month_approval # 1ヶ月分の勤怠承認更新
     one_month_approval_params.each do |id, item|
       attendance = Attendance.find(id)
       user = User.find(attendance.user_id)
@@ -103,10 +102,11 @@ class AttendancesController < ApplicationController
   end
 
   
-  def edit_attendance_change_request # 勤怠変更申請
+  def edit_attendance_change_request # 勤怠の変更内容を申請する。
   end
 
-  def update_attendance_change_request
+  def update_attendance_change_request # 勤怠の変更内容を更新する。 #ここ１
+    
     ActiveRecord::Base.transaction do
       attendance_change_request_params.each do |id, item|
         attendance = Attendance.find(id)
@@ -126,12 +126,12 @@ class AttendancesController < ApplicationController
     redirect_to attendances_edit_attendance_change_request_user_url(date: params[:date])
   end
 
-  def edit_attendance_change_approval # 勤怠変更承認
+  def edit_attendance_change_approval # 勤怠の変更内容を承認する。
     @users = User.includes(:attendances).where(attendances: { selector_attendance_change_request: current_user.name })
                                         .where("instructor_attendance_change LIKE ?", "%申請中").order("attendances.worked_on")
   end
-
-  def update_attendance_change_approval
+  #ここ２
+  def update_attendance_change_approval # 勤怠の変更内容の承認を更新する。
     ActiveRecord::Base.transaction do
       attendance_change_approval_params.each do |id, item|
         attendance = Attendance.find(id)
@@ -174,7 +174,7 @@ class AttendancesController < ApplicationController
     @attendance = @user.attendances.find_by(worked_on: params[:date]) 
   end
 
-  def update_overtime_request
+  def update_overtime_request # 残業申請更新
     overtime_request_params.each do |id, item|
       attendance = Attendance.find(id)
 
