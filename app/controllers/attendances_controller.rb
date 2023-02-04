@@ -1,7 +1,10 @@
 class AttendancesController < ApplicationController
   before_action :set_user, only: [:update_one_month_request,
-                                  :edit_attendance_change_request, :update_attendance_change_request,  
+                                  :edit_one_month_approval,
+                                  :edit_attendance_change_request, :update_attendance_change_request,
+                                  :edit_attendance_change_approval,
                                   :edit_overtime_request, :update_overtime_request,
+                                  :edit_overtime_approval,
                                   :attendance_log]
   before_action :logged_in_user, only: [:update, 
                                         :edit_attendance_change_request, :update_attendance_change_request,
@@ -106,7 +109,7 @@ class AttendancesController < ApplicationController
   end
 
   def update_attendance_change_request # 勤怠の変更内容を更新する。 #ここ１
-    
+    a_count = 0
     ActiveRecord::Base.transaction do
       attendance_change_request_params.each do |id, item|
         attendance = Attendance.find(id)
@@ -115,14 +118,46 @@ class AttendancesController < ApplicationController
           attendance.instructor_attendance_change = "#{attendance_change_request_params[id][:selector_attendance_change_request]}へ勤怠変更申請中"
           attendance.instructor_attendance_log = attendance_change_request_params[id][:selector_attendance_change_request]
           attendance.attendance_change_approval_check = false
+        end
+        
+        if item[:selector_attendance_change_request].present?
+          if item[:started_at].blank? && item[:finished_at].blank?
+            flash[:danger] = "出勤時間、退勤時間を入力してください。error-code0"
+            redirect_to attendances_edit_attendance_change_request_user_url(date: params[:date])
+            return
+          elsif item[:started_at].blank? && item[:finished_at].present?
+            flash[:danger] = "出勤時間を入力してください。error-code1"
+            redirect_to attendances_edit_attendance_change_request_user_url(date: params[:date])
+            return
+          elsif item[:started_at].present? && item[:finished_at].blank?
+            flash[:danger] = "退勤時間を入力してください。error-code2"
+            redirect_to attendances_edit_attendance_change_request_user_url(date: params[:date])
+            return
+          elsif item[:started_at].present? && item[:finished_at].present? && item[:started_at].to_s > item[:finished_at].to_s
+            flash[:danger] = "退勤後に出勤はできません。出勤時間と退勤時間を正確に入力してください。error-code3"
+            redirect_to attendances_edit_attendance_change_request_user_url(date: params[:date])
+            return
+          elsif item[:note].blank? 
+            flash[:danger] = "備考欄には理由などの入力が必要です。error-code4"
+            redirect_to attendances_edit_attendance_change_request_user_url(date: params[:date])
+            return
+          end
+          a_count += 1
           attendance.update!(item)
         end
       end
+      if a_count > 0
+        flash[:success] = "有効な勤怠の変更申請を#{a_count}件、送信しました。(無効なものは却下してあります。)"
+        redirect_to user_url(date: params[:date])
+        return
+      else
+        flash[:danger] = "上長を選択してください。error-code5"
+        redirect_to attendances_edit_attendance_change_request_user_url(date: params[:date])
+        return
+      end
     end
-    flash[:success] = "勤怠の変更申請を送信しました。"
-    redirect_to user_url(date: params[:date])
   rescue ActiveRecord::RecordInvalid
-    flash[:danger] = "無効な入力データがあったため、更新をキャンセルしました。"
+    flash[:danger] = "無効な入力データがあったため、更新をキャンセルしました。error-code2"
     redirect_to attendances_edit_attendance_change_request_user_url(date: params[:date])
   end
 
@@ -130,7 +165,7 @@ class AttendancesController < ApplicationController
     @users = User.includes(:attendances).where(attendances: { selector_attendance_change_request: current_user.name })
                                         .where("instructor_attendance_change LIKE ?", "%申請中").order("attendances.worked_on")
   end
-  #ここ２
+
   def update_attendance_change_approval # 勤怠の変更内容の承認を更新する。
     ActiveRecord::Base.transaction do
       attendance_change_approval_params.each do |id, item|

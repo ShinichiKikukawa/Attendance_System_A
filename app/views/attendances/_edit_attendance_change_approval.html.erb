@@ -13,7 +13,7 @@
     <div class="modal-body">
       <div class="row">
         <div class="md-col-10 md-col-offset-1">
-          <%= form_with(model: @users, url: attendances_update_attendance_change_approval_user_path(@users), method: :patch, local: true) do |f| %>
+          <%= form_with(model: @users, url: attendances_update_attendance_change_approval_user_path(@user.id), method: :patch, local: true) do |f| %>
             <% @users.each do |user| %>
               <h1>【<%= user.name %>からの勤怠変更申請】</h1>
               <table class="table table-bordered table-condensed table-hover" id="table-attendances-change">
@@ -66,7 +66,7 @@
                         <!-- 備考 -->
                         <td><%= day.note %></td>
                         <!-- 指示者確認印 -->
-                        <td><%= attendance.select :confirm_superior_attendance_change_request, [["申請中"], ["なし"], ["承認"], ["否認"]], {include_blank: "---"} %></td>
+                        <td><%= attendance.select :confirm_superior_attendance_change_request, [["申請中"], ["承認"], ["否認"], ["なし"] ] %></td>
                         <!-- 変更 -->
                         <td><%= attendance.check_box :attendance_change_approval_check, {}, checked_value = "true",unchecked_value = "false" %></td>
                         <td><%= link_to "確認", user_path(user, date: day.worked_on.beginning_of_month), target: :_blank, rel: "noopener noreferrer", class: "btn btn-primary btn-sm" %></td>

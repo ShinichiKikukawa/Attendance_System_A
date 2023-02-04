@@ -13,7 +13,7 @@
     <div class="modal-body">
       <div class="row">
         <div class="md-col-10 md-col-offset-1">
-          <%= form_with(model: @users, url: attendances_update_overtime_approval_user_path(@users), method: :patch, local: true) do |f| %>
+          <%= form_with(model: @users, url: attendances_update_overtime_approval_user_path(@user.id), method: :patch, local: true) do |f| %>
             <% @users.each do |user| %>
               <h1 class="applicant">【<%= user.name %> からの残業申請】</h1>
               <table class="table table-bordered table-condensed table-hover", id="table-overtime-approval">
@@ -50,7 +50,7 @@
                           <% end %>
                         </td>
                         <td><%= day.work_contents %></td>
-                        <td><%= attendance.select :confirm_superior_overtime_request, [["申請中", "申請中"], ["なし", "なし"], ["承認", "承認"], ["否認", "否認"]], {include_blank: "---"} %></td>
+                        <td><%= attendance.select :confirm_superior_overtime_request, [["申請中", "申請中"],  ["承認", "承認"], ["否認", "否認"], ["なし", "なし"]] %></td>
                         <td><%= attendance.check_box :overtime_approval_check, {}, true, false %></td>
                         <td><%= link_to "確認", user_path(user, date: day.worked_on.beginning_of_month), target: :_blank, rel: "noopener noreferrer", class: "btn btn-primary btn-sm" %></td>
                       </tr>
