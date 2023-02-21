@@ -22,7 +22,7 @@
                     <th rowspan="3">日付</th>
                     <th rowspan="3">曜日</th>
                     <th colspan="4">変更前</th>
-                    <th colspan="4">変更後</th>
+                    <th colspan="4">変更後</th>変更を送信する
                     <th rowspan="3">備考</th>
                     <th rowspan="3">指示者確認&#12958;</th>
                     <th rowspan="3">変更</th>
@@ -52,23 +52,24 @@
                         <td><%= l(day.worked_on, format: :short) %></td>
                         <td><%= $days_of_the_week[day.worked_on.wday] %></td>
                         <!-- 変更前：出社：時・分 -->
-                        <td><%= day.started_at_before.floor_to(15.minutes).strftime("%H") unless day.started_at_before.nil? %></td>
-                        <td><%= day.started_at_before.floor_to(15.minutes).strftime("%M") unless day.started_at_before.nil? %></td>
+                        <td><%= day.started_at.floor_to(15.minutes).strftime("%H") unless day.started_at.nil? %></td>
+                        <td><%= day.started_at.floor_to(15.minutes).strftime("%M") unless day.started_at.nil? %></td>
                         <!-- 変更前：退社：時・分 -->
-                        <td><%= day.finished_at_before.floor_to(15.minutes).strftime("%H") unless day.finished_at_before.nil? %></td>
-                        <td><%= day.finished_at_before.floor_to(15.minutes).strftime("%M") unless day.finished_at_before.nil? %></td>
+                        <td><%= day.finished_at.floor_to(15.minutes).strftime("%H") unless day.finished_at.nil? %></td>
+                        <td><%= day.finished_at.floor_to(15.minutes).strftime("%M") unless day.finished_at.nil? %></td>
                         <!-- 変更後：出社：時・分 -->
-                        <td><%= day.started_at.floor_to(15.minutes).strftime("%H") %></td>
-                        <td><%= day.started_at.floor_to(15.minutes).strftime("%M") %></td>
+                        <td><%= day.started_at_approval.floor_to(15.minutes).strftime("%H") unless day.started_at_approval.nil? %></td>
+                        <td><%= day.started_at_approval.floor_to(15.minutes).strftime("%M") unless day.started_at_approval.nil? %></td>
                         <!-- 変更後：退社：時・分 -->
-                        <td><%= day.finished_at.floor_to(15.minutes).strftime("%H") %></td>
-                        <td><%= day.finished_at.floor_to(15.minutes).strftime("%M") %></td>
+                        <td><%= day.finished_at_approval.floor_to(15.minutes).strftime("%H") unless day.finished_at_approval.nil? %></td>
+                        <td><%= day.finished_at_approval.floor_to(15.minutes).strftime("%M") unless day.finished_at_approval.nil? %></td>
                         <!-- 備考 -->
                         <td><%= day.note %></td>
                         <!-- 指示者確認印 -->
                         <td><%= attendance.select :confirm_superior_attendance_change_request, [["申請中"], ["承認"], ["否認"], ["なし"] ] %></td>
                         <!-- 変更 -->
                         <td><%= attendance.check_box :attendance_change_approval_check, {}, checked_value = "true",unchecked_value = "false" %></td>
+                        <!-- 勤怠を確認する -->
                         <td><%= link_to "確認", user_path(user, date: day.worked_on.beginning_of_month), target: :_blank, rel: "noopener noreferrer", class: "btn btn-primary btn-sm" %></td>
                       </tr>
                     <% end %>

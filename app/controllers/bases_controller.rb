@@ -31,7 +31,7 @@ class BasesController < ApplicationController
       redirect_to bases_url
     else
       flash.now[:danger] = "拠点情報の更新に失敗しました。入力漏れ、重複がないか確認してください。"
-      render :edit
+      render :_edit
     end
   end
   

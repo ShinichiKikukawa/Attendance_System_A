@@ -27,7 +27,7 @@ module SessionsHelper
   # それ以外の場合はcookiesに対応するユーザーを返す。
   # ログイン中のユーザー情報を取得する。
   def current_user
-    if (user_id = session[:user_id])
+    if (user_id = session[:user_id])#user_idがブラウザ上のセッションのuser_idと同じか判定
       @current_user ||= User.find_by(id: user_id)
     elsif (user_id = cookies.signed[:user_id])
       user = User.find_by(id: user_id)

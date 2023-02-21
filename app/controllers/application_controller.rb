@@ -75,7 +75,7 @@ class ApplicationController < ActionController::Base
   end
 
   def superiors
-    @superiors = User.where(superior: true).where.not(name: @user.name)
+    @superiors = User.where(superior: true).where.not(name: @user.name).order(id: :asc)
   end
 
 

@@ -11,6 +11,8 @@ class AddOvertimeToAttendances < ActiveRecord::Migration[5.1]
     
     add_column :attendances, :started_at_before, :datetime
     add_column :attendances, :finished_at_before, :datetime
+    add_column :attendances, :started_at_approval, :datetime
+    add_column :attendances, :finished_at_approval, :datetime
     add_column :attendances, :selector_attendance_change_request, :string
     add_column :attendances, :attendance_change_approval_check, :boolean, default: false
     add_column :attendances, :confirm_superior_attendance_change_request, :string

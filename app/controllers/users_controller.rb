@@ -21,6 +21,7 @@ class UsersController < ApplicationController
     end
 
     if current_user.superior? # 勤怠変更申請のお知らせ
+      
       @attendance_change_request = Attendance.where(selector_attendance_change_request: current_user.name)
                                             .where("instructor_attendance_change LIKE ?", "%申請中").count
     end
@@ -45,18 +46,17 @@ class UsersController < ApplicationController
       csv << header # csv << headerは表の列に入る名前を定義します。# 表のカラム名を定義
       
       attendances.each do |day|# column_valuesに代入するカラム値を定義します。 # column_valuesに代入するカラム値を定義
-        column_values = [day.worked_on.strftime("%Y年%m月%d日(#{$days_of_the_week[day.worked_on.wday]})"),
-          if day.started_at.present? && (day.confirm_superior_attendance_change_request == "承認").present?
-            l(day.started_at, format: :time)
-          else
-            nil
-          end,
-          if day.finished_at.present? && (day.confirm_superior_attendance_change_request == "承認").present?
-            l(day.finished_at, format: :time)
-          else
-            nil
-          end
-        ]
+        if day.started_at.present? && (day.confirm_superior_attendance_change_request=="承認" || day.confirm_superior_attendance_change_request== nil )
+          started_at = day.started_at.present? ? l(day.started_at.floor_to(15.minutes), format: :time) : ""
+          finished_at = day.finished_at.present? ? l(day.finished_at.floor_to(15.minutes), format: :time) : ""
+        elsif day.started_at.present? && (day.confirm_superior_attendance_change_request=="承認" || day.confirm_superior_attendance_change_request== nil )
+          started_at = day.started_at_before.present? ? l(day.started_at_before.floor_to(15.minutes), format: :time) : ""
+          finished_at = day.finished_at_before.present? ? l(day.finished_at_before.floor_to(15.minutes), format: :time) : ""
+        end
+        column_values = [day.worked_on.strftime("%Y年%m月%d日(#{$days_of_the_week[day.worked_on.wday]})"), 
+                        started_at,
+                        finished_at
+                        ]
         csv << column_values # csv << column_valuesは表の行に入る値を定義します。
       end
     end
@@ -131,7 +131,7 @@ class UsersController < ApplicationController
                                   :password, :password_confirmation, :basic_work_time,
                                   :designated_work_start_time, :designated_work_end_time)
     end
-
+    
     def basic_info_params
       params.require(:user).permit(:name, :email, :affiliation, :employee_number, :uid,
                                   :password, :password_confirmation, :basic_work_time,

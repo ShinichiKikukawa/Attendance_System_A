@@ -47,7 +47,11 @@
                   <%= attendance.check_box :next_day_attendance_change, {}, checked_value = "true", unchecked_value = "false" %>
                 <% end %>
               </td>
-              <td></td>
+              <td>
+                <% if day.started_at.present? && day.finished_at.present? %>
+                  <%= working_time(day.started_at, day.finished_at) %>
+                <% end %>
+              </td>
               <!-- 備考 -->
               <td>
                 <% if day.worked_on > Date.current %>
@@ -56,6 +60,7 @@
                   <%= attendance.text_field :note, class: "form-control" %>
                 <% end %>
               </td>
+              
               <!-- 指示者確認印 -->
               <td>
                 <% if day.worked_on > Date.current %>

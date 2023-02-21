@@ -1,30 +1,55 @@
 class AttendancesController < ApplicationController
-  before_action :set_user, only: [:update_one_month_request,
-                                  :edit_one_month_approval,
-                                  :edit_attendance_change_request, :update_attendance_change_request,
-                                  :edit_attendance_change_approval,
-                                  :edit_overtime_request, :update_overtime_request,
-                                  :edit_overtime_approval,
-                                  :attendance_log]
-  before_action :logged_in_user, only: [:update, 
-                                        :edit_attendance_change_request, :update_attendance_change_request,
-                                        :edit_overtime_request, :update_overtime_request,
-                                        :attendance_log]
+  before_action :set_user, only: [
+    :update_one_month_request,
+    :edit_one_month_approval,
+    :edit_attendance_change_request,
+    :update_attendance_change_request,
+    :edit_attendance_change_approval,
+    :edit_overtime_request,
+    :update_overtime_request,
+    :edit_overtime_approval,
+    :attendance_log
+  ]
+
+  before_action :logged_in_user, only: [
+    :update,
+    :edit_attendance_change_request,
+    :update_attendance_change_request,
+    :edit_overtime_request,
+    :update_overtime_request,
+    :attendance_log
+  ]
   #before_action :admin_user, only: index
-  before_action :correct_user, only: [:update,
-                                      :update_one_month_request,
-                                      :edit_attendance_change_request, :update_attendance_change_request,
-                                      :edit_overtime_request, :update_overtime_request,
-                                      :attendance_log]
-  before_action :superior_user, only:[:edit_one_month_approval, :update_one_month_approval,
-                                      :edit_attendance_change_approval, :update_attendance_change_approval,
-                                      :edit_overtime_approval, :update_overtime_approval, 
-                                      :attendance_confirmation]  
-  before_action :set_one_month, only:[:edit_attendance_change_request,
-                                      :edit_overtime_request,
-                                      :attendance_log]
-  before_action :superiors, only: [:edit_attendance_change_request, :edit_overtime_request]
-  before_action :overtime_request, only:[:edit_overtime_request, :update_overtime_request]
+  before_action :correct_user, only: [
+    :update,
+    :update_one_month_request,
+    :edit_attendance_change_request,
+    :update_attendance_change_request,
+    :edit_overtime_request,
+    :update_overtime_request,
+    :attendance_log
+  ]
+  before_action :superior_user, only:[
+    :edit_one_month_approval, :update_one_month_approval,
+    :edit_attendance_change_approval,
+    :update_attendance_change_approval,
+    :edit_overtime_approval,
+    :update_overtime_approval,
+    :attendance_confirmation
+  ]  
+  before_action :set_one_month, only:[
+    :edit_attendance_change_request,
+    :edit_overtime_request,
+    :attendance_log
+  ]
+  before_action :superiors, only: [
+    :edit_attendance_change_request,
+    :edit_overtime_request
+  ]
+  before_action :overtime_request, only:[
+    :edit_overtime_request,
+    :update_overtime_request
+  ]
 
   UPDATE_ERROR_MSG = "勤怠登録に失敗しました。やり直してください。"
 
@@ -36,13 +61,13 @@ class AttendancesController < ApplicationController
     @user = User.find(params[:user_id])
     @attendance = Attendance.find(params[:id])
     if @attendance.started_at.nil? # 出勤時間が未登録であることを判定します。
-      if @attendance.update(started_at: Time.current.change(sec: 0), started_at_before: Time.current.change(sec: 0))
+      if @attendance.update(started_at: Time.current.change(sec: 0))#, started_at_before: Time.current.change(sec: 0))
         flash[:success] = "おはようございます! 出勤時間を登録しました!"
       else
         flash[:danger] = UPDATE_ERROR_MSG
       end
     elsif @attendance.started_at.present? && @attendance.finished_at.nil?
-      if @attendance.update(finished_at: Time.current.change(sec: 0), finished_at_before: Time.current.change(sec: 0))
+      if @attendance.update(finished_at: Time.current.change(sec: 0))#, finished_at_before: Time.current.change(sec: 0))
         flash[:success] = "お疲れ様でした! 退勤時間を登録しました!"
       else
         flash[:danger] = UPDATE_ERROR_MSG  
@@ -93,7 +118,7 @@ class AttendancesController < ApplicationController
         else one_month_approval_params[id][:confirm_superior_one_month_request] == "申請中"
           attendance.one_month_approval_result = "#{current_user.name}から保留"
         end
-        attendance.selector_one_month_request = nil
+          attendance.selector_one_month_request = nil
         if attendance.update(item)
           flash[:success] = "変更を送信しました。"
         else
@@ -101,99 +126,189 @@ class AttendancesController < ApplicationController
         end
       end
     end
-    redirect_to user_url(current_user)
+      redirect_to user_url(current_user)
   end
 
   
-  def edit_attendance_change_request # 勤怠の変更内容を申請する。
+  def edit_attendance_change_request # 勤怠の変更内容を申請する。#勤怠を編集ボタンを押下。
   end
+#   # 勤怠変更申請の承認/否認を更新するメソッド。transactionを使用して、複数のDB更新が失敗した場合にはすべての変更を取り消すようにしている。
+# # attendance_change_request: 更新対象の勤怠変更申請オブジェクト
+# # approval: 変更申請の承認状態 (true: 承認, false: 否認)
+# # current_user: 変更申請を承認/否認するユーザー
+# def update_attendance_change_request(attendance_change_request, approval, current_user)
+#   ActiveRecord::Base.transaction do
+#     # 勤怠変更申請オブジェクトのapproval、approver_id、approved_atを更新する
+#     attendance_change_request.update(approval: approval, approver_id: current_user.id, approved_at: Time.current)
+#     # 勤怠オブジェクトを更新するためにattendance変数に代入する
+#     attendance = attendance_change_request.attendance
+#     # 勤怠変更申請が承認されている場合、勤怠情報を更新する
+#     if attendance_change_request.approval?
+#       attendance_change_request.update_attendance(attendance)
+#     end
+#     # 勤怠変更申請の承認/否認に関する通知メールを送信する
+#     attendance_change_request.send_notification_email
+#   end
+# end
 
-  def update_attendance_change_request # 勤怠の変更内容を更新する。 #ここ１
+# # AttendanceChangeRequestモデルクラス。attendanceとapproverとの関連を定義する。
+# class AttendanceChangeRequest < ApplicationRecord
+#   belongs_to :attendance
+#   belongs_to :approver, class_name: "User", optional: true
+
+#   # 勤怠情報を更新するメソッド。
+#   # attendance: 更新対象の勤怠オブジェクト
+#   def update_attendance(attendance)
+#     if started_at.present?
+#       attendance.update(started_at: started_at, started_at_before: attendance.started_at)
+#     end
+#     if finished_at.present?
+#       attendance.update(finished_at: finished_at, finished_at_before: attendance.finished_at)
+#     end
+#   end
+
+#   # 承認/否認に応じて通知メールを送信するメソッド。
+#   def send_notification_email
+#     if approval?
+#       NotificationMailer.attendance_change_request_approval(self).deliver_now
+#     else
+#       NotificationMailer.attendance_change_request_rejection(self).deliver_now
+#     end
+#   end
+# end
+
+# # attendance_change_requestの編集ページを表示するアクション
+# def edit_attendance_change_request
+#   # 勤怠情報テーブルから、started_at, finished_at, instructor_id, approval_superiorが全て存在し、
+#   # worked_onがparams[:date]と一致し、next_day_flagがnilのデータを抽出し、user_idで昇順に並び替える
+#   @attendances = Attendance.where.not(started_at: nil).where.not(finished_at: nil).where.not(instructor_id: nil)
+#     .where.not(approval_superior: nil).where(worked_on: params[:date]).where(next_day_flag: nil).order(:user_id)
+#   # params[:user_id]に対応するユーザーを取得する
+#   @user = User.find(params[:user_id])
+#   # @userの上司を取得する
+#   @superiors = @user.superiors
+#   # @attendancesのattendance_idに紐づく、approvalがnilのattendance_change_requestを抽出する
+#   @attendances_change_request = AttendanceChangeRequest.where(attendance_id: @attendances.ids).where(approval: nil)
+#   # @attendances_change_requestが存在する場合、その中のstarted_at_beforeやfinished_at_beforeを設定する
+#   if @attendances_change_request.count > 0
+#     @attendances_change_request.each do |attendance_change_request|
+#       if attendance_change_request.started_at_before.nil?
+#         attendance_change_request.started_at_before = attendance_change_request.attendance.started_at
+#       end
+#       if attendance_change_request.finished_at_before.nil?
+#         attendance_change_request.finished_at_before = attendance_change_request.attendance.finished_at
+#       end
+#     end
+#   end
+#   # params[:date]に対応する月初日を設定する
+#   @first_day = params[:date].to_date.beginning_of_month
+#   # attendance_change_requestの編集ページを表示する
+#   render "edit_attendance_change_request"
+# end
+
+  def update_attendance_change_request #編集を保存するボタンを押下。 # 勤怠の変更内容を更新する。 
     a_count = 0
     ActiveRecord::Base.transaction do
       attendance_change_request_params.each do |id, item|
         attendance = Attendance.find(id)
-        if attendance_change_request_params[id][:selector_attendance_change_request].present?
-          attendance.confirm_superior_attendance_change_request = nil
-          attendance.instructor_attendance_change = "#{attendance_change_request_params[id][:selector_attendance_change_request]}へ勤怠変更申請中"
-          attendance.instructor_attendance_log = attendance_change_request_params[id][:selector_attendance_change_request]
-          attendance.attendance_change_approval_check = false
-        end
-        
         if item[:selector_attendance_change_request].present?
           if item[:started_at].blank? && item[:finished_at].blank?
-            flash[:danger] = "出勤時間、退勤時間を入力してください。error-code0"
+            flash[:danger] = "出勤時間、退勤時間を入力してください。error-code1"
             redirect_to attendances_edit_attendance_change_request_user_url(date: params[:date])
             return
           elsif item[:started_at].blank? && item[:finished_at].present?
-            flash[:danger] = "出勤時間を入力してください。error-code1"
+            flash[:danger] = "出勤時間を入力してください。error-code2"
             redirect_to attendances_edit_attendance_change_request_user_url(date: params[:date])
             return
           elsif item[:started_at].present? && item[:finished_at].blank?
-            flash[:danger] = "退勤時間を入力してください。error-code2"
+            flash[:danger] = "退勤時間を入力してください。error-code3"
             redirect_to attendances_edit_attendance_change_request_user_url(date: params[:date])
             return
           elsif item[:started_at].present? && item[:finished_at].present? && item[:started_at].to_s > item[:finished_at].to_s
-            flash[:danger] = "退勤後に出勤はできません。出勤時間と退勤時間を正確に入力してください。error-code3"
+            flash[:danger] = "退勤後に出勤はできません。出勤時間と退勤時間を正確に入力してください。error-code4"
             redirect_to attendances_edit_attendance_change_request_user_url(date: params[:date])
             return
           elsif item[:note].blank? 
-            flash[:danger] = "備考欄には理由などの入力が必要です。error-code4"
+            flash[:danger] = "備考欄には理由などの入力が必要です。error-code5"
             redirect_to attendances_edit_attendance_change_request_user_url(date: params[:date])
             return
           end
-          a_count += 1
-          attendance.update!(item)
+          attendance.assign_attributes(
+            started_at_approval: item[:started_at],
+            finished_at_approval: item[:finished_at],
+            confirm_superior_attendance_change_request: "申請中",
+            selector_attendance_change_request: item[:selector_attendance_change_request],
+            instructor_attendance_change: "#{item[:selector_attendance_change_request]}へ勤怠変更申請中",
+            instructor_attendance_log: item[:selector_attendance_change_request],
+            next_day_attendance_change: item[:next_day_attendance_change]
+            )
+          
+          a_count += 1 
+          attendance.save!
         end
       end
       if a_count > 0
-        flash[:success] = "有効な勤怠の変更申請を#{a_count}件、送信しました。(無効なものは却下してあります。)"
+        flash[:success] = "有効な勤怠の変更申請を#{a_count}件、送信しました。"
         redirect_to user_url(date: params[:date])
         return
       else
-        flash[:danger] = "上長を選択してください。error-code5"
+        flash[:danger] = "上長を選択してください。error-code6"
         redirect_to attendances_edit_attendance_change_request_user_url(date: params[:date])
         return
       end
     end
   rescue ActiveRecord::RecordInvalid
-    flash[:danger] = "無効な入力データがあったため、更新をキャンセルしました。error-code2"
+    flash[:danger] = "無効な入力データがあったため、更新をキャンセルしました。error-code6"
     redirect_to attendances_edit_attendance_change_request_user_url(date: params[:date])
   end
+
+#上記attendance.assign_attributesとしてリファクタリング及び修正。
+          # attendance.started_at_approval = attendance_change_request_params[id][:started_at]
+          # attendance.finished_at_approval = attendance_change_request_params[id][:finished_at]
+          # attendance.confirm_superior_attendance_change_request = "申請中"
+          # attendance.instructor_attendance_change = "#{attendance_change_request_params[id][:selector_attendance_change_request]}へ勤怠変更申請中"
+          # attendance.instructor_attendance_log = attendance_change_request_params[id][:selector_attendance_change_request]
+          # attendance.attendance_change_approval_check = false
 
   def edit_attendance_change_approval # 勤怠の変更内容を承認する。
     @users = User.includes(:attendances).where(attendances: { selector_attendance_change_request: current_user.name })
                                         .where("instructor_attendance_change LIKE ?", "%申請中").order("attendances.worked_on")
   end
 
-  def update_attendance_change_approval # 勤怠の変更内容の承認を更新する。
+
+  def update_attendance_change_approval #勤怠変更承認のモーダルの"変更を送信する"ボタン押下。 #勤怠の変更内容の承認を更新する。
     ActiveRecord::Base.transaction do
       attendance_change_approval_params.each do |id, item|
         attendance = Attendance.find(id)
-        user = User.find(attendance.user_id)
         if attendance_change_approval_params[id][:attendance_change_approval_check] == "true"
           if attendance_change_approval_params[id][:confirm_superior_attendance_change_request] == "承認"
-            attendance.instructor_attendance_change = "勤怠変更承認済"
+            attendance.assign_attributes(
+              started_at_before: attendance[:started_at],
+              finished_at_before: attendance[:finished_at],
+              started_at: attendance[:started_at_approval], 
+              finished_at: attendance[:finished_at_approval],
+              )                                                                      
+            attendance.confirm_superior_attendance_change_request= "承認"
+            attendance.instructor_attendance_change = "#{current_user.name}から勤怠変更承認済"
             attendance.selector_attendance_change_request = nil
           elsif attendance_change_approval_params[id][:confirm_superior_attendance_change_request] == "否認"
-            attendance.instructor_attendance_change = "勤怠変更否認"
-            attendance_change_approval_params[id][:started_at] = nil
-            attendance_change_approval_params[id][:finished_at] = nil
-            attendance_change_approval_params[id][:next_day_attendance_change] = nil
-            attendance.selector_attendance_change_request = nil
+            attendance.confirm_superior_attendance_change_request= "否認"
+            attendance.instructor_attendance_change = "#{current_user.name}から勤怠変更否認"
+
           elsif attendance_change_approval_params[id][:confirm_superior_attendance_change_request] == "申請中"
-            attendance.instructor_attendance_change = "勤怠変更申請中"
+            attendance.instructor_attendance_change = "#{current_user.name}から勤怠変更申請中"
           elsif attendance_change_approval_params[id][:confirm_superior_attendance_change_request] == "なし"
-            attendance.instructor_attendance_change = "勤怠変更なし"
-            attendance_change_approval_params[id][:started_at] = nil
-            attendance_change_approval_params[id][:finished_at] = nil
+            attendance.confirm_superior_attendance_change_request= "なし"
+            attendance.instructor_attendance_change = "#{current_user.name}から勤怠変更なし"
+            attendance_change_approval_params[id][:started_at_approval] = nil
+            attendance_change_approval_params[id][:finished_at_approval] = nil
             attendance_change_approval_params[id][:next_day_attendance_change] = nil
             attendance.selector_attendance_change_request = nil
           end
-          attendance.attendance_change_approval_day = Date.current
-          
-          if attendance.update!(item)
-            flash[:success] = "勤怠変更申請の結果を送信しました。"
+            attendance.attendance_change_approval_day = Date.current
+            
+            if attendance.save!
+              flash[:success] = "勤怠変更申請の結果を送信しました。"
           end
         end
       end
@@ -204,6 +319,14 @@ class AttendancesController < ApplicationController
     redirect_to user_url(current_user)
   end
 
+  # unless attendance_change_approval_params[id][:confirm_superior_attendance_change_request] == "否認" || attendance_change_approval_params[id][:confirm_superior_attendance_change_request] == "申請中" || attendance_change_approval_params[id][:confirm_superior_attendance_change_request] == "なし"
+          #   attendance.update!(started_at_before: attendance.started_at, finished_at_before: attendance.finished_at)
+          # end
+  # attendance_change_approval_params[id][:started_at] = nil
+            # attendance_change_approval_params[id][:finished_at] = nil
+            # attendance_change_approval_params[id][:next_day_attendance_change] = nil
+            # attendance.selector_attendance_change_request = nil
+
   def edit_overtime_request # 残業申請
     @user = User.find(params[:id])
     @attendance = @user.attendances.find_by(worked_on: params[:date]) 
@@ -213,18 +336,18 @@ class AttendancesController < ApplicationController
     overtime_request_params.each do |id, item|
       attendance = Attendance.find(id)
 
-    if overtime_request_params[id][:scheduled_end_time].blank? || overtime_request_params[id][:work_contents].blank? || overtime_request_params[id][:selector_overtime_request].blank?
-      flash[:danger] = "終了予定時間、業務内容、または、指示者確認欄がありません。"
-    else
-      attendance.instructor = "#{overtime_request_params[id][:selector_overtime_request]}へ残業申請中"
-      if attendance.update(item)
-        flash[:success] = "#{attendance.selector_overtime_request}への残業申請が完了しました。"
+      if overtime_request_params[id][:scheduled_end_time].blank? || overtime_request_params[id][:work_contents].blank? || overtime_request_params[id][:selector_overtime_request].blank?
+        flash[:danger] = "終了予定時間、業務処理内容、または、指示者確認印がありません。"
       else
-      flash[:danger] = "残業申請に失敗しました。無効な入力、もしくは、未入力がないか確認してください。"
+        attendance.instructor = "#{overtime_request_params[id][:selector_overtime_request]}へ残業申請中"
+        if attendance.update(item)
+          flash[:success] = "#{attendance.selector_overtime_request}への残業申請が完了しました。"
+        else
+        flash[:danger] = "残業申請に失敗しました。無効な入力、もしくは、未入力がないか確認してください。"
+        end
       end
+        redirect_to user_url(@user, date: attendance.worked_on.beginning_of_month)
     end
-    redirect_to user_url(@user, date: attendance.worked_on.beginning_of_month)
-  end
   end
 
   def edit_overtime_approval # 残業承認
@@ -238,19 +361,19 @@ class AttendancesController < ApplicationController
       user = User.find(attendance.user_id)
       if overtime_approval_params[id][:overtime_approval_check] == "true"
         if overtime_approval_params[id][:confirm_superior_overtime_request] == "承認"
-          attendance.instructor = "残業承認済"
+          attendance.instructor = "#{attendance.selector_overtime_request}から残業承認済"
           attendance.selector_overtime_request = nil
         elsif overtime_approval_params[id][:confirm_superior_overtime_request] == "否認"
-          attendance.instructor = "残業否認"
+          attendance.instructor = "#{attendance.selector_overtime_request}から残業否認"
           attendance.selector_overtime_request = nil
         elsif overtime_approval_params[id][:confirm_superior_overtime_request] == "なし"
           attendance.scheduled_end_time = nil
           attendance.next_day_overtime = nil
           attendance.work_contents = nil
-          attendance.instructor = "残業なし"
+          attendance.instructor = "#{attendance.selector_overtime_request}から残業なし"
           attendance.selector_overtime_request = nil
         else overtime_approval_params[id][:confirm_superior_overtime_request] == "申請中"
-          attendance.instructor = "残業申請中"
+          attendance.instructor = "#{attendance.selector_overtime_request}へ残業申請中"
         end
         if attendance.update(item)
           flash[:success] = "残業申請の結果を送信しました。"
@@ -305,11 +428,11 @@ class AttendancesController < ApplicationController
     end
 
     def attendance_change_request_params
-      params.require(:user).permit(attendances: [:started_at, :finished_at, :next_day_attendance_change, :note, :selector_attendance_change_request])[:attendances]
+      params.require(:user).permit(attendances: [:started_at, :finished_at, :started_at_before, :finished_at_before, :started_at_approval, :finished_at_approval,:next_day_attendance_change, :note, :selector_attendance_change_request])[:attendances]
     end
 
     def attendance_change_approval_params
-      params.require(:user).permit(attendances: [:confirm_superior_attendance_change_request, :attendance_change_approval_check])[:attendances]
+      params.require(:user).permit(attendances: [:started_at, :finished_at, :started_at_before, :finished_at_before, :started_at_approval, :finished_at_approval, :confirm_superior_attendance_change_request, :attendance_change_approval_check])[:attendances]
     end
 
     def overtime_request_params
