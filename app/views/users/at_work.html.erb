@@ -10,7 +10,7 @@
           <th class="col-sm-2">名前</th>
         </tr>
       </thead>
-     
+
       <tbody>
         <% @users.each do |user| %>
           <% user.attendances.where(worked_on: Date.current).each do |day| %>

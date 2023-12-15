@@ -7,7 +7,7 @@
     <%= form_with(url: import_users_path) do |f| %>
       <%= f.file_field :file, accept: '.csv' %>
       <%= f.submit "csvをインポート", class: "btn btn-primary csv-button" %>
-    <% end %> 
+    <% end %>
 
   <%= will_paginate %>
   <div class="col-md-11 col-md-offset-1">
@@ -24,7 +24,7 @@
             </tr>
           </div>
         </table>
-    
+
         <div class="panel panel-default">
           <div class="panel-heading">
             <h4 class="panel-title">

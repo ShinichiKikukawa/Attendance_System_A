@@ -7,31 +7,31 @@ Rails.application.routes.draw do
   delete '/logout', to: 'sessions#destroy'
 
   resources :users do
-    
+
     member do
       get 'edit_basic_info'
       patch 'update_basic_info'
       get 'attendances/edit_one_month'
       patch 'attendances/update_one_month' # この行が追加対象です。
       get 'at_work' # 出勤中社員一覧
-      
+
       get 'attendances/edit_one_month_request'# 1ヶ月の勤怠申請・承認
       patch 'attendances/update_one_month_request'
       get 'attendances/edit_one_month_approval'
       patch 'attendances/update_one_month_approval'
-      
+
       get 'attendances/edit_attendance_change_request'# 個々の勤怠変更申請・承認
       patch 'attendances/update_attendance_change_request'
       get 'attendances/edit_attendance_change_approval'
       patch 'attendances/update_attendance_change_approval'
-      
+
       get 'attendances/edit_overtime_request'# 残業申請・承認
       patch 'attendances/update_overtime_request'
       get 'attendances/edit_overtime_approval'
       patch 'attendances/update_overtime_approval'
-      
+
       get 'attendances/attendance_confirmation'# 上長勤怠確認
-      
+
       get 'attendances/attendance_log'# 勤怠ログ
     end
 

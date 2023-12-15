@@ -40,7 +40,7 @@ module SessionsHelper
 
   # 渡されたユーザーがログイン済みのユーザーであればtrueを返す。
   def current_user?(user)
-   user == current_user
+    user == current_user
   end
 
   # 現在ログイン中のユーザーがいればtrue、そうでなければfalseを返す。
@@ -56,6 +56,6 @@ module SessionsHelper
 
   # アクセルしようとしたURLを記憶する
   def store_location
-     session[:forwarding_url] = request.original_url if request.get?
+    session[:forwarding_url] = request.original_url if request.get?
   end
 end

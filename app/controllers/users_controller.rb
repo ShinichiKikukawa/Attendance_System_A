@@ -21,11 +21,11 @@ class UsersController < ApplicationController
     end
 
     if current_user.superior? # 勤怠変更申請のお知らせ
-      
+
       @attendance_change_request = Attendance.where(selector_attendance_change_request: current_user.name)
                                             .where("instructor_attendance_change LIKE ?", "%申請中").count
     end
-    
+
     if current_user.superior? # 残業申請のお知らせ（上長ごとに、残業申請がされている件数をカウント）
       @overtime_request = Attendance.where(selector_overtime_request: current_user.name).count
     end
@@ -37,14 +37,14 @@ class UsersController < ApplicationController
       end
     end
   end
-  
+
   def send_attendances_csv(attendances) # 勤怠csv出力
     bom = "\uFEFF"#文字化け防止
-    
+
     csv_data = CSV.generate(headers: true) do |csv|# CSV.generateとは、対象データを自動的にCSV形式に変換してくれるCSVライブラリの一種
       header = %w(日付 出勤時間 退勤時間) # %w()は、空白で区切って配列を返します
       csv << header # csv << headerは表の列に入る名前を定義します。# 表のカラム名を定義
-      
+
       attendances.each do |day|# column_valuesに代入するカラム値を定義します。 # column_valuesに代入するカラム値を定義
         if day.started_at.present? && (day.confirm_superior_attendance_change_request=="承認" || day.confirm_superior_attendance_change_request== nil )
           started_at = day.started_at.present? ? l(day.started_at.floor_to(15.minutes), format: :time) : ""
@@ -122,7 +122,7 @@ class UsersController < ApplicationController
 
   def at_work # 出勤社員一覧 挙動を確認する。
     @users = User.all
-  end    
+  end
 
   private
 
@@ -131,10 +131,10 @@ class UsersController < ApplicationController
                                   :password, :password_confirmation, :basic_work_time,
                                   :designated_work_start_time, :designated_work_end_time)
     end
-    
+
     def basic_info_params
       params.require(:user).permit(:name, :email, :affiliation, :employee_number, :uid,
                                   :password, :password_confirmation, :basic_work_time,
                                   :designated_work_start_time, :designated_work_end_time)
-    end 
+    end
 end

@@ -1,7 +1,7 @@
 class BasesController < ApplicationController
   before_action :set_base, only: [:edit, :update, :destroy]
   before_action :admin_user, only: [:index, :new, :create, :edit, :update, :destroy]
-  
+
   def index
     @bases = Base.all.order(base_number: "ASC")
   end
@@ -9,7 +9,7 @@ class BasesController < ApplicationController
   def new
     @base = Base.new
   end
-  
+
   def create
     @base = Base.new(base_params)
     if @base.save
@@ -21,10 +21,10 @@ class BasesController < ApplicationController
       render :index
     end
   end
-  
+
   def edit
   end
-  
+
   def update
     if @base.update(base_params)
       flash[:success] = "拠点情報の修正をしました。"
@@ -34,7 +34,7 @@ class BasesController < ApplicationController
       render :_edit
     end
   end
-  
+
   def destroy
     if @base.destroy
       flash[:success] = "#{@base.base_name}の拠点情報を削除しました。"
@@ -49,7 +49,7 @@ class BasesController < ApplicationController
       def base_params
         params.require(:base).permit(:base_number, :base_name, :work_type)
       end
-      
+
       def set_base
         @base = Base.find(params[:id])
       end

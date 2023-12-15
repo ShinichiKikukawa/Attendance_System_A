@@ -3,11 +3,11 @@ class ApplicationController < ActionController::Base
   include SessionsHelper
 
   $days_of_the_week = %w{日 月 火 水 木 金 土}
-  
+
   def set_user # paramsハッシュからユーザーを取得します。
     @user = User.find(params[:id]) 
   end
-  
+
   def logged_in_user  # ログインユーザー
     unless logged_in?# ログイン済みのユーザーか確認します。
       store_location
@@ -30,13 +30,13 @@ class ApplicationController < ActionController::Base
       redirect_to users_url
     end
   end
-  
+
   def admin_impossible # 管理者は勤怠画面の表示と編集は不可
     if current_user.admin?
       redirect_to users_url
     end
   end
-  
+
   def correct_user# アクセスしたユーザーが現在ログインしているユーザーか確認します。# ログインユーザーとログイン先が一致しているか？
     @user = User.find(params[:user_id]) if @user.blank?
     unless current_user?(@user)
@@ -69,7 +69,7 @@ class ApplicationController < ActionController::Base
       redirect_to root_url
     end
   end
-    
+
   def superior_user
     redirect_to root_url unless current_user.superior?
   end
